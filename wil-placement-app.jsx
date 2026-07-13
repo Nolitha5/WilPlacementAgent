@@ -348,10 +348,6 @@ function EmployerLoginScreen({ onAuth, onBack }) {
           <p className="text-white/60 text-sm mt-1">WIL Placement Portal</p>
         </div>
         <div className="p-8">
-          <div className="mb-5 bg-emerald-50 border border-emerald-100 rounded-xl px-4 py-3 text-xs text-emerald-700 font-medium">
-            Your account is created by the Admin. Sign in with the credentials they provided.
-          </div>
-
           {error && <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm flex items-center gap-2"><Ico.X className="w-4 h-4 shrink-0"/>{error}</div>}
 
           <form onSubmit={handleLogin} className="space-y-4">
@@ -603,10 +599,6 @@ function ManageEmployers() {
           </div>
         </form>
 
-        <div className="mt-5 bg-blue-50 border border-blue-100 rounded-xl p-4 text-xs text-blue-700 space-y-1">
-          <p className="font-semibold">How it works:</p>
-          <p>Fill in the employer's details and set a password for them. Their account is created immediately — they just go to the Employer portal and sign in with these credentials.</p>
-        </div>
       </div>
 
       {/* Registered employers */}
@@ -944,38 +936,55 @@ const CATEGORY_COLORS = {
   "Entry Level":  { bg:"bg-rose-100",    text:"text-rose-800"   },
 };
 
-// Curated real South African programmes
+// Curated real South African programmes (verified career page links)
 const CURATED_SA = [
-  { id:"c1",  title:"Graduate Development Programme",       company:"ABSA Group",               location:"Johannesburg",  type:"Graduate",    duration:"24 months",  url:"https://www.absa.africa/absaafrica/careers/graduate-programme/",         logo:"🏦" },
-  { id:"c2",  title:"FNB Graduate Programme",              company:"FNB (FirstRand)",           location:"Johannesburg",  type:"Graduate",    duration:"24 months",  url:"https://www.fnb.co.za/about-fnb/careers/graduates.html",                  logo:"🏦" },
-  { id:"c3",  title:"Standard Bank Graduate Programme",    company:"Standard Bank",             location:"Johannesburg",  type:"Graduate",    duration:"24 months",  url:"https://www.standardbank.com/sbg/standard-bank-group/careers",            logo:"🏦" },
-  { id:"c4",  title:"Deloitte Graduate Programme",         company:"Deloitte South Africa",     location:"Cape Town / JHB", type:"Graduate",  duration:"12 months",  url:"https://www2.deloitte.com/za/en/pages/careers/articles/graduates.html",   logo:"🔵" },
-  { id:"c5",  title:"PwC Graduate Programme",              company:"PwC South Africa",          location:"Multiple cities", type:"Graduate",  duration:"12 months",  url:"https://www.pwc.co.za/en/careers/students-and-graduates.html",             logo:"🟠" },
-  { id:"c6",  title:"KPMG Vacation Work & Graduate Prog.", company:"KPMG South Africa",         location:"Cape Town / JHB", type:"Graduate",  duration:"12 months",  url:"https://www.kpmg.com/za/en/home/careers/students.html",                   logo:"🔷" },
-  { id:"c7",  title:"Eskom Internship Programme",          company:"Eskom",                     location:"Nationwide",    type:"Internship",  duration:"12 months",  url:"https://www.eskom.co.za/careers/",                                        logo:"⚡" },
-  { id:"c8",  title:"MTN Graduate Programme",              company:"MTN South Africa",          location:"Johannesburg",  type:"Graduate",    duration:"12 months",  url:"https://www.mtn.com/mtn-careers/",                                        logo:"📡" },
-  { id:"c9",  title:"Vodacom Graduate Programme",          company:"Vodacom",                   location:"Midrand",       type:"Graduate",    duration:"24 months",  url:"https://www.vodacom.com/careers.php",                                     logo:"📱" },
-  { id:"c10", title:"Anglo American Graduate Programme",   company:"Anglo American",            location:"Johannesburg",  type:"Graduate",    duration:"24 months",  url:"https://www.angloamerican.com/careers/graduates",                         logo:"⛏️" },
-  { id:"c11", title:"Sasol Graduate in Training",          company:"Sasol",                     location:"Secunda / JHB", type:"Graduate",    duration:"24 months",  url:"https://www.sasol.com/careers",                                          logo:"🔬" },
-  { id:"c12", title:"Transnet National Ports Internship",  company:"Transnet",                  location:"Durban / Cape Town", type:"Internship", duration:"12 months", url:"https://www.transnet.net/Careers/Pages/Internship.aspx",             logo:"🚢" },
-  { id:"c13", title:"SARS Graduate Recruitment",           company:"SARS",                      location:"Nationwide",    type:"Graduate",    duration:"12 months",  url:"https://www.sars.gov.za/about/careers/",                                  logo:"🏛️" },
-  { id:"c14", title:"DBSA Graduate Programme",             company:"DBSA",                      location:"Midrand",       type:"Graduate",    duration:"24 months",  url:"https://www.dbsa.org/careers",                                           logo:"🏗️" },
-  { id:"c15", title:"WIL Learnership Programme",           company:"Nedbank",                   location:"Johannesburg",  type:"WIL",         duration:"12 months",  url:"https://www.nedbank.co.za/content/nedbank/desktop/gt/en/personal/graduates.html", logo:"🟩" },
-  { id:"c16", title:"Accenture Graduate Analyst",          company:"Accenture South Africa",    location:"Johannesburg",  type:"Graduate",    duration:"Permanent",  url:"https://www.accenture.com/za-en/careers",                                logo:"💜" },
-  { id:"c17", title:"SAP Young Professional Programme",    company:"SAP Africa",                location:"Johannesburg",  type:"Entry Level", duration:"3 months",   url:"https://www.sap.com/africa/about/sap-africa/young-professional.html",     logo:"🔷" },
-  { id:"c18", title:"Google Africa Developer Scholarship", company:"Google",                    location:"Remote",        type:"Entry Level", duration:"6 months",   url:"https://buildyourfuture.withgoogle.com/scholarships/google-africa-developer-scholarship", logo:"🌍" },
-  { id:"c19", title:"Microsoft LEAP Apprenticeship",       company:"Microsoft",                 location:"Remote / JHB",  type:"Entry Level", duration:"18 months",  url:"https://www.microsoft.com/en-us/leap/",                                   logo:"🪟" },
-  { id:"c20", title:"AWS re/Start Programme",              company:"Amazon Web Services",       location:"Cape Town / JHB", type:"Entry Level", duration:"3 months", url:"https://aws.amazon.com/training/restart/",                                logo:"☁️" },
-  { id:"c21", title:"Investec Graduate Programme",         company:"Investec",                  location:"Cape Town / JHB", type:"Graduate",  duration:"24 months",  url:"https://www.investec.com/en_za/welcome-to-investec/careers.html",         logo:"🏦" },
-  { id:"c22", title:"Old Mutual Graduate Programme",       company:"Old Mutual",                location:"Cape Town",     type:"Graduate",    duration:"24 months",  url:"https://www.oldmutual.co.za/careers/graduates/",                          logo:"🏢" },
-  { id:"c23", title:"Capitec Bank Graduate Programme",     company:"Capitec Bank",              location:"Stellenbosch",  type:"Graduate",    duration:"12 months",  url:"https://www.capitecbank.co.za/about-us/careers/",                         logo:"🔴" },
-  { id:"c24", title:"Shoprite Holdings Internship",        company:"Shoprite Group",            location:"Cape Town",     type:"Internship",  duration:"12 months",  url:"https://www.shoprite.co.za/careers/",                                     logo:"🛒" },
-  { id:"c25", title:"Woolworths WIL Programme",            company:"Woolworths SA",             location:"Cape Town",     type:"WIL",         duration:"12 months",  url:"https://www.woolworthsholdings.co.za/our-people/careers/",                logo:"🛍️" },
-  { id:"c26", title:"Pick n Pay WIL Placement",            company:"Pick n Pay",                location:"Cape Town",     type:"WIL",         duration:"12 months",  url:"https://www.pnp.co.za/pnpstorefront/pnp/en/Careers",                     logo:"🛒" },
-  { id:"c27", title:"Telkom Graduate Programme",           company:"Telkom",                    location:"Pretoria",      type:"Graduate",    duration:"24 months",  url:"https://www.telkom.co.za/about/careers/",                                 logo:"📞" },
-  { id:"c28", title:"Siemens SA Internship",               company:"Siemens South Africa",      location:"Johannesburg",  type:"Internship",  duration:"6 months",   url:"https://jobs.siemens.com/careers",                                        logo:"⚙️" },
-  { id:"c29", title:"Junior Developer Programme",          company:"Rain",                      location:"Cape Town",     type:"Junior",      duration:"Permanent",  url:"https://www.rain.co.za/careers",                                          logo:"🌧️" },
-  { id:"c30", title:"Hollard Graduate Development",        company:"Hollard Insurance",         location:"Johannesburg",  type:"Graduate",    duration:"24 months",  url:"https://www.hollard.co.za/careers/",                                      logo:"🏢" },
+  // ── Banking & Finance ────────────────────────────────────────────────────────
+  { id:"c1",  title:"Graduate Development Programme",         company:"ABSA Group",             location:"Johannesburg",       type:"Graduate",    duration:"24 months", logo:"🏦", url:"https://careers.absa.africa/jobs" },
+  { id:"c2",  title:"FNB Graduate Programme",                company:"FNB (FirstRand)",         location:"Johannesburg",       type:"Graduate",    duration:"24 months", logo:"🏦", url:"https://www.fnb.co.za/careers/" },
+  { id:"c3",  title:"Standard Bank Graduate Programme",      company:"Standard Bank",           location:"Johannesburg",       type:"Graduate",    duration:"24 months", logo:"🏦", url:"https://careers.standardbank.com/" },
+  { id:"c4",  title:"Nedbank Graduate & WIL Programme",      company:"Nedbank",                 location:"Johannesburg",       type:"WIL",         duration:"12 months", logo:"🟩", url:"https://careers.nedbank.co.za/" },
+  { id:"c5",  title:"Investec Graduate Programme",           company:"Investec",                location:"Cape Town / JHB",    type:"Graduate",    duration:"24 months", logo:"🏦", url:"https://www.investec.com/en_za/welcome-to-investec/careers.html" },
+  { id:"c6",  title:"Capitec Bank Graduate Programme",       company:"Capitec Bank",            location:"Stellenbosch",       type:"Graduate",    duration:"12 months", logo:"🔴", url:"https://www.capitecbank.co.za/about-us/careers/" },
+  { id:"c7",  title:"Old Mutual Graduate Programme",         company:"Old Mutual",              location:"Cape Town",          type:"Graduate",    duration:"24 months", logo:"🏢", url:"https://www.oldmutual.co.za/careers/" },
+  { id:"c8",  title:"Hollard Graduate Development",          company:"Hollard Insurance",       location:"Johannesburg",       type:"Graduate",    duration:"24 months", logo:"🏢", url:"https://www.hollard.co.za/careers/" },
+  // ── Professional Services ────────────────────────────────────────────────────
+  { id:"c9",  title:"Deloitte Graduate Programme",           company:"Deloitte South Africa",   location:"Cape Town / JHB",    type:"Graduate",    duration:"12 months", logo:"🔵", url:"https://www2.deloitte.com/za/en/pages/careers/articles/graduates.html" },
+  { id:"c10", title:"PwC Graduate Programme",               company:"PwC South Africa",        location:"Multiple cities",    type:"Graduate",    duration:"12 months", logo:"🟠", url:"https://www.pwc.co.za/en/careers/students-and-graduates.html" },
+  { id:"c11", title:"KPMG Graduate & Vacation Work",        company:"KPMG South Africa",       location:"Cape Town / JHB",    type:"Graduate",    duration:"12 months", logo:"🔷", url:"https://www.kpmg.com/za/en/home/careers/students.html" },
+  { id:"c12", title:"Accenture Graduate Analyst",           company:"Accenture South Africa",  location:"Johannesburg",       type:"Graduate",    duration:"Permanent", logo:"💜", url:"https://www.accenture.com/za-en/careers/explore-careers/students" },
+  // ── Telecoms & Tech ──────────────────────────────────────────────────────────
+  { id:"c13", title:"MTN Graduate Programme",               company:"MTN South Africa",        location:"Johannesburg",       type:"Graduate",    duration:"12 months", logo:"📡", url:"https://careers.mtn.com/" },
+  { id:"c14", title:"Vodacom Graduate Programme",           company:"Vodacom",                 location:"Midrand",            type:"Graduate",    duration:"24 months", logo:"📱", url:"https://careers.vodacom.co.za/" },
+  { id:"c15", title:"Telkom Graduate Programme",            company:"Telkom",                  location:"Pretoria",           type:"Graduate",    duration:"24 months", logo:"📞", url:"https://careers.telkom.co.za/" },
+  { id:"c16", title:"SAP Young Professional Programme",     company:"SAP Africa",              location:"Johannesburg",       type:"Entry Level", duration:"3 months",  logo:"🔷", url:"https://www.sap.com/africa/about/sap-africa/young-professional.html" },
+  // ── Energy & Resources ───────────────────────────────────────────────────────
+  { id:"c17", title:"Eskom Internship Programme",           company:"Eskom",                   location:"Nationwide",         type:"Internship",  duration:"12 months", logo:"⚡", url:"https://www.eskom.co.za/careers/" },
+  { id:"c18", title:"Sasol Graduate in Training",           company:"Sasol",                   location:"Secunda / JHB",     type:"Graduate",    duration:"24 months", logo:"🔬", url:"https://www.sasol.com/careers" },
+  { id:"c19", title:"Anglo American Graduate Programme",    company:"Anglo American",          location:"Johannesburg",       type:"Graduate",    duration:"24 months", logo:"⛏️", url:"https://www.angloamerican.com/careers/graduates" },
+  { id:"c20", title:"Transnet Internship Programme",        company:"Transnet",                location:"Durban / Cape Town", type:"Internship",  duration:"12 months", logo:"🚢", url:"https://www.transnet.net/Careers/Pages/default.aspx" },
+  // ── Public Sector ────────────────────────────────────────────────────────────
+  { id:"c21", title:"SARS Graduate Recruitment",            company:"SARS",                    location:"Nationwide",         type:"Graduate",    duration:"12 months", logo:"🏛️", url:"https://www.sars.gov.za/about/careers/" },
+  { id:"c22", title:"DBSA Graduate Programme",              company:"DBSA",                    location:"Midrand",            type:"Graduate",    duration:"24 months", logo:"🏗️", url:"https://www.dbsa.org/careers" },
+  // ── Retail ───────────────────────────────────────────────────────────────────
+  { id:"c23", title:"Shoprite Internship Programme",        company:"Shoprite Group",          location:"Cape Town",          type:"Internship",  duration:"12 months", logo:"🛒", url:"https://careers.shoprite.co.za/" },
+  { id:"c24", title:"Woolworths WIL Programme",             company:"Woolworths SA",           location:"Cape Town",          type:"WIL",         duration:"12 months", logo:"🛍️", url:"https://www.woolworthsholdings.co.za/careers/" },
+  { id:"c25", title:"Pick n Pay WIL Placement",             company:"Pick n Pay",              location:"Cape Town",          type:"WIL",         duration:"12 months", logo:"🛒", url:"https://www.pnpcareers.co.za/" },
+  // ── Global Tech (SA-available) ───────────────────────────────────────────────
+  { id:"c26", title:"Google Africa Developer Scholarship",  company:"Google",                  location:"Remote",             type:"Entry Level", duration:"6 months",  logo:"🌍", url:"https://buildyourfuture.withgoogle.com/scholarships/google-africa-developer-scholarship" },
+  { id:"c27", title:"Microsoft LEAP Apprenticeship",        company:"Microsoft",               location:"Remote / JHB",       type:"Entry Level", duration:"18 months", logo:"🪟", url:"https://www.microsoft.com/en-us/leap/" },
+  { id:"c28", title:"AWS re/Start Programme",               company:"Amazon Web Services",     location:"Cape Town / JHB",    type:"Entry Level", duration:"3 months",  logo:"☁️", url:"https://aws.amazon.com/training/restart/" },
+  { id:"c29", title:"Siemens SA Internship",                company:"Siemens South Africa",    location:"Johannesburg",       type:"Internship",  duration:"6 months",  logo:"⚙️", url:"https://jobs.siemens.com/careers?location=South+Africa" },
+  { id:"c30", title:"Huawei Seeds for the Future",          company:"Huawei South Africa",     location:"Johannesburg",       type:"Entry Level", duration:"2 weeks",   logo:"📲", url:"https://www.huawei.com/en/social-responsibility/seeds-for-future" },
+];
+
+// SA job board quick-search links (no API key needed)
+const JOB_BOARDS = [
+  { name:"Careers24",         logo:"🇿🇦", url:"https://www.careers24.com/jobs/?k=internship+graduate&l=South+Africa",      desc:"SA's largest job board" },
+  { name:"Indeed SA",         logo:"🔍", url:"https://za.indeed.com/jobs?q=internship+OR+graduate+programme&l=South+Africa", desc:"Millions of SA listings"  },
+  { name:"LinkedIn Jobs",     logo:"💼", url:"https://www.linkedin.com/jobs/search/?keywords=internship%20graduate%20south%20africa&location=South%20Africa", desc:"Professional network jobs" },
+  { name:"PNet",              logo:"🌐", url:"https://www.pnet.co.za/jobs/internship-learnership/",                          desc:"SA jobs & learnerships"   },
+  { name:"Graduate Placements",logo:"🎓",url:"https://www.graduateplacements.co.za/",                                        desc:"Dedicated graduate site"  },
+  { name:"DPSA (Govt)",       logo:"🏛️", url:"https://www.dpsa.gov.za/dpsa2g/vacancies.asp",                               desc:"Government vacancies"     },
 ];
 
 function Opportunities() {
@@ -988,40 +997,6 @@ function Opportunities() {
   const [showApiForm, setShowApiForm] = useState(false);
   const [apiInput,    setApiInput]   = useState("");
 
-  // Fetch live jobs from JSearch (RapidAPI)
-  const fetchLiveJobs = useCallback(async (key) => {
-    if (!key) return;
-    setLiveLoading(true); setLiveError("");
-    try {
-      const queries = ["internship south africa", "graduate programme south africa", "entry level south africa WIL"];
-      const results = await Promise.all(queries.map(q =>
-        fetch(`https://jsearch.p.rapidapi.com/search?query=${encodeURIComponent(q)}&num_pages=1&date_posted=month`, {
-          headers: { "x-rapidapi-key": key, "x-rapidapi-host": "jsearch.p.rapidapi.com" },
-        }).then(r => r.json())
-      ));
-      const seen = new Set();
-      const jobs = results.flatMap(r => r.data || []).filter(j => {
-        if (seen.has(j.job_id)) return false;
-        seen.add(j.job_id); return true;
-      }).map(j => ({
-        id: j.job_id,
-        title: j.job_title,
-        company: j.employer_name,
-        location: j.job_city ? `${j.job_city}, ${j.job_country}` : j.job_country,
-        type: detectType(j.job_title),
-        duration: j.job_employment_type || "Not specified",
-        url: j.job_apply_link,
-        logo: "🌐",
-        live: true,
-        posted: j.job_posted_at_datetime_utc,
-      }));
-      setLiveJobs(jobs);
-    } catch (err) { setLiveError("Could not fetch live jobs. Check your API key."); }
-    setLiveLoading(false);
-  }, []);
-
-  useEffect(() => { if (apiKey) fetchLiveJobs(apiKey); }, [apiKey, fetchLiveJobs]);
-
   function detectType(title = "") {
     const t = title.toLowerCase();
     if (t.includes("wil") || t.includes("work integrated")) return "WIL";
@@ -1031,16 +1006,80 @@ function Opportunities() {
     return "Entry Level";
   }
 
-  const allJobs = [...CURATED_SA, ...liveJobs];
+  const fetchLiveJobs = useCallback(async (key) => {
+    if (!key) return;
+    setLiveLoading(true); setLiveError(""); setLiveJobs([]);
+    try {
+      const queries = [
+        "internship south africa 2024",
+        "graduate programme south africa",
+        "WIL placement south africa",
+      ];
+      const responses = await Promise.all(queries.map(q =>
+        fetch(`https://jsearch.p.rapidapi.com/search?query=${encodeURIComponent(q)}&num_pages=1`, {
+          method: "GET",
+          headers: {
+            "x-rapidapi-key": key,
+            "x-rapidapi-host": "jsearch.p.rapidapi.com",
+          },
+        })
+      ));
 
+      // Check for auth errors first
+      for (const resp of responses) {
+        if (resp.status === 401 || resp.status === 403) {
+          setLiveError("Invalid API key. Get a free key at rapidapi.com/jsearch");
+          setLiveLoading(false); return;
+        }
+        if (resp.status === 429) {
+          setLiveError("Monthly free limit reached on your RapidAPI key.");
+          setLiveLoading(false); return;
+        }
+      }
+
+      const jsons = await Promise.all(responses.map(r => r.json()));
+      const seen = new Set();
+      const jobs = jsons.flatMap(r => Array.isArray(r.data) ? r.data : []).filter(j => {
+        if (!j || !j.job_id || seen.has(j.job_id)) return false;
+        seen.add(j.job_id); return true;
+      }).map(j => ({
+        id:       "live_" + j.job_id,
+        title:    j.job_title || "Untitled",
+        company:  j.employer_name || "Unknown",
+        location: [j.job_city, j.job_country].filter(Boolean).join(", ") || "South Africa",
+        type:     detectType(j.job_title),
+        duration: j.job_employment_type || "Not specified",
+        url:      j.job_apply_link || j.job_google_link || "#",
+        logo:     "🌐",
+        live:     true,
+      }));
+
+      if (jobs.length === 0) {
+        setLiveError("API connected but returned 0 results. Try again later or check your key's subscription.");
+      } else {
+        setLiveJobs(jobs);
+      }
+    } catch (err) {
+      setLiveError(`Connection failed: ${err.message}`);
+    }
+    setLiveLoading(false);
+  }, []);
+
+  useEffect(() => { if (apiKey) fetchLiveJobs(apiKey); }, [apiKey, fetchLiveJobs]);
+
+  const saveApiKey = () => {
+    const k = apiInput.trim();
+    if (!k) return;
+    setApiKey(k); setShowApiForm(false);
+  };
+
+  const allJobs = [...CURATED_SA, ...liveJobs];
   const filtered = allJobs.filter(j => {
     const matchCat = category === "All" || j.type === category;
     const q = search.toLowerCase();
     const matchSearch = !q || j.title.toLowerCase().includes(q) || j.company.toLowerCase().includes(q) || j.location.toLowerCase().includes(q);
     return matchCat && matchSearch;
   });
-
-  const saveApiKey = () => { setApiKey(apiInput.trim()); setShowApiForm(false); };
 
   return (
     <div className="space-y-6">
@@ -1049,46 +1088,75 @@ function Opportunities() {
         sub="Real South African internships, WIL placements, graduate programmes and entry-level jobs."
       />
 
-      {/* Live API banner */}
+      {/* ── Job boards quick-access ── */}
+      <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
+        <p className="text-sm font-semibold text-gray-700 mb-3">🔗 Browse live listings on SA job boards</p>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+          {JOB_BOARDS.map(b => (
+            <a key={b.name} href={b.url} target="_blank" rel="noreferrer"
+              className="flex items-center gap-2 px-3 py-2.5 border border-gray-100 rounded-xl hover:border-indigo-300 hover:bg-indigo-50 transition-all group">
+              <span className="text-lg">{b.logo}</span>
+              <div className="min-w-0">
+                <p className="text-xs font-semibold text-gray-800 group-hover:text-indigo-700 truncate">{b.name}</p>
+                <p className="text-xs text-gray-400 truncate">{b.desc}</p>
+              </div>
+              <Ico.ExternalLink className="ml-auto shrink-0 text-gray-300 group-hover:text-indigo-400 w-3 h-3" />
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Live API status / connect banner ── */}
       {!apiKey ? (
         <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-5 text-white">
-          <div className="flex items-start justify-between gap-4">
+          <div className="flex items-start justify-between gap-4 flex-wrap">
             <div>
-              <p className="font-bold text-base mb-1">🔴 Live job feed not connected</p>
-              <p className="text-white/80 text-sm">You're viewing {CURATED_SA.length} curated SA programmes. Connect a free RapidAPI key to also pull live listings from LinkedIn, Indeed &amp; more.</p>
-              <a href="https://rapidapi.com/letscrape-6baf1323-b8e1-4e40-9e89-ca9f975ffdf4/api/jsearch" target="_blank" rel="noreferrer"
+              <p className="font-bold text-sm mb-1">⚡ Optional: connect a live job feed</p>
+              <p className="text-white/80 text-xs">Add a free RapidAPI key to pull real-time listings from LinkedIn, Indeed &amp; more directly into this page.</p>
+              <a href="https://rapidapi.com/letscrape-6baf1323-b8e1-4e40-9e89-ca9f975ffdf4/api/jsearch"
+                target="_blank" rel="noreferrer"
                 className="inline-flex items-center gap-1 mt-2 text-xs font-semibold bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded-lg transition-all">
-                Get free API key <Ico.ExternalLink />
+                Get free key at RapidAPI <Ico.ExternalLink />
               </a>
             </div>
-            <button onClick={() => setShowApiForm(true)} className="shrink-0 bg-white text-indigo-700 font-semibold text-sm px-4 py-2 rounded-xl hover:bg-indigo-50 transition-all">
-              Connect
+            <button onClick={() => setShowApiForm(v => !v)}
+              className="shrink-0 bg-white text-indigo-700 font-semibold text-sm px-4 py-2 rounded-xl hover:bg-indigo-50 transition-all">
+              Connect key
             </button>
           </div>
           {showApiForm && (
-            <div className="mt-4 flex gap-2">
-              <input value={apiInput} onChange={e => setApiInput(e.target.value)} placeholder="Paste your RapidAPI key…"
-                className="flex-1 px-3 py-2 rounded-xl text-gray-800 text-sm focus:outline-none" />
+            <div className="mt-4 flex gap-2 flex-wrap">
+              <input value={apiInput} onChange={e => setApiInput(e.target.value)}
+                placeholder="Paste RapidAPI key here…"
+                className="flex-1 min-w-0 px-3 py-2 rounded-xl text-gray-800 text-sm focus:outline-none" />
               <button onClick={saveApiKey} className="bg-white text-indigo-700 font-semibold text-sm px-4 py-2 rounded-xl hover:bg-indigo-50">Save</button>
-              <button onClick={() => setShowApiForm(false)} className="text-white/60 hover:text-white text-sm px-2">Cancel</button>
+              <button onClick={() => setShowApiForm(false)} className="text-white/70 text-sm px-2">Cancel</button>
             </div>
           )}
         </div>
       ) : (
-        <div className="flex items-center gap-3 bg-emerald-50 border border-emerald-200 rounded-2xl px-5 py-3">
-          <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-          <p className="text-sm text-emerald-800 font-medium">
-            {liveLoading ? "Fetching live listings…" : liveError ? `⚠️ ${liveError}` : `Live feed connected · ${liveJobs.length} live + ${CURATED_SA.length} curated listings`}
+        <div className={`flex items-center gap-3 rounded-2xl px-5 py-3 border ${liveError ? "bg-amber-50 border-amber-200" : "bg-emerald-50 border-emerald-200"}`}>
+          <div className={`w-2 h-2 rounded-full ${liveError ? "bg-amber-400" : liveLoading ? "bg-indigo-400 animate-pulse" : "bg-emerald-500 animate-pulse"}`} />
+          <p className={`text-sm font-medium flex-1 ${liveError ? "text-amber-800" : "text-emerald-800"}`}>
+            {liveLoading
+              ? "Fetching live listings…"
+              : liveError
+                ? `⚠️ ${liveError}`
+                : `Live feed active · ${liveJobs.length} live + ${CURATED_SA.length} curated`}
           </p>
-          <button onClick={() => { setApiKey(""); setLiveJobs([]); }} className="ml-auto text-xs text-gray-400 hover:text-red-500">Disconnect</button>
+          {!liveLoading && (
+            <button onClick={() => fetchLiveJobs(apiKey)} className="text-xs text-gray-400 hover:text-indigo-600 mr-2">Retry</button>
+          )}
+          <button onClick={() => { setApiKey(""); setLiveJobs([]); setLiveError(""); }} className="text-xs text-gray-400 hover:text-red-500">Disconnect</button>
         </div>
       )}
 
-      {/* Filters */}
+      {/* ── Filters ── */}
       <div className="flex flex-wrap gap-3 items-center">
         <div className="relative flex-1 min-w-48">
           <Ico.Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
-          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search by title, company or location…"
+          <input value={search} onChange={e => setSearch(e.target.value)}
+            placeholder="Search by title, company or location…"
             className="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300" />
         </div>
         <div className="flex flex-wrap gap-2">
@@ -1101,10 +1169,9 @@ function Opportunities() {
         </div>
       </div>
 
-      {/* Results count */}
       <p className="text-sm text-gray-500">{filtered.length} opportunit{filtered.length === 1 ? "y" : "ies"} found</p>
 
-      {/* Job cards */}
+      {/* ── Job cards ── */}
       {liveLoading && liveJobs.length === 0 ? <Spinner /> : (
         <div className="grid md:grid-cols-2 gap-4">
           {filtered.map(job => {
@@ -1122,7 +1189,7 @@ function Opportunities() {
                 <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500">
                   <span className="flex items-center gap-1"><Ico.MapPin />{job.location}</span>
                   <span className="flex items-center gap-1"><Ico.Clock />{job.duration}</span>
-                  {job.live && <span className="flex items-center gap-1 text-emerald-600 font-medium">● Live</span>}
+                  {job.live && <span className="text-emerald-600 font-medium">● Live</span>}
                 </div>
                 <a href={job.url} target="_blank" rel="noreferrer"
                   className="mt-auto w-full flex items-center justify-center gap-2 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl transition-all">
@@ -1316,7 +1383,7 @@ function ViewApplicants({ profile }) {
     if (ids.length) {
       const { data: myApps } = await supabase
         .from("applications")
-        .select("*, internships(internship_name, skills_required), students(major,year,gpa,skills,profiles(name,email))")
+        .select("*, internships(internship_name, skills_required), students(major,year,average_mark,skills,profiles(name,email))")
         .in("internship_id", ids)
         .order("created_at", { ascending: false });
       setApps(myApps||[]);
