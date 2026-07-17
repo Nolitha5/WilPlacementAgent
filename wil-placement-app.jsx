@@ -116,6 +116,7 @@ const Ico = {
   Clock:     ({ className = "w-4 h-4" }) => (<svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" strokeWidth="2"/><polyline points="12 6 12 12 16 14" strokeWidth="2" strokeLinecap="round"/></svg>),
   Tag:       ({ className = "w-4 h-4" }) => (<svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" strokeWidth="2"/><line x1="7" y1="7" x2="7.01" y2="7" strokeWidth="2" strokeLinecap="round"/></svg>),
   Globe:     ({ className = "w-5 h-5" }) => (<svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" strokeWidth="2"/><line x1="2" y1="12" x2="22" y2="12" strokeWidth="2"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" strokeWidth="2"/></svg>),
+  Newspaper: ({ className = "w-5 h-5" }) => (<svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>),
   ExternalLink: ({ className = "w-4 h-4" }) => (<svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" strokeWidth="2"/><polyline points="15 3 21 3 21 9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><line x1="10" y1="14" x2="21" y2="3" strokeWidth="2" strokeLinecap="round"/></svg>),
   Search:    ({ className = "w-5 h-5" }) => (<svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" strokeWidth="2"/><line x1="21" y1="21" x2="16.65" y2="16.65" strokeWidth="2" strokeLinecap="round"/></svg>),
 };
@@ -123,8 +124,8 @@ const Ico = {
 // ─── Sidebar ─────────────────────────────────────────────────────────────────
 
 const NAV = {
-  admin:    [{ id:"dashboard", label:"Dashboard",         Icon:Ico.Dashboard }, { id:"employers", label:"Manage Employers", Icon:Ico.Building  }],
-  student:  [{ id:"dashboard", label:"Dashboard",         Icon:Ico.Dashboard }, { id:"internships",label:"Available Internships",Icon:Ico.Briefcase },{ id:"opportunities",label:"Opportunities",Icon:Ico.Globe },{ id:"applications",label:"My Applications",Icon:Ico.List }],
+  admin:    [{ id:"dashboard", label:"Dashboard",         Icon:Ico.Dashboard }, { id:"employers", label:"Manage Employers", Icon:Ico.Building }, { id:"matching", label:"WIL Matching", Icon:Ico.Search }],
+  student:  [{ id:"dashboard", label:"Dashboard",         Icon:Ico.Dashboard }, { id:"internships",label:"Available Internships",Icon:Ico.Briefcase },{ id:"opportunities",label:"Opportunities",Icon:Ico.Globe },{ id:"applications",label:"My Applications",Icon:Ico.List },{ id:"news",label:"Career News",Icon:Ico.Newspaper }],
   employer: [{ id:"dashboard", label:"Dashboard",         Icon:Ico.Dashboard }, { id:"post",      label:"Add Internship",   Icon:Ico.Plus      },{ id:"listings",label:"My Internships",Icon:Ico.Briefcase },{ id:"applicants",label:"View Applicants",Icon:Ico.Users }],
 };
 
@@ -309,7 +310,7 @@ function AdminLoginScreen({ onAuth, onBack }) {
             <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Email</label>
               <input type="email" required value={email} onChange={e=>setEmail(e.target.value)} className={inputCls} /></div>
             <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Password</label>
-              <input type="password" required value={password} onChange={e=>setPassword(e.target.value)} placeholder="••••••••" className={inputCls} /></div>
+              <input type="password" required value={password} onChange={e=>setPassword(e.target.value)} placeholder="" className={inputCls} /></div>
             <button type="submit" disabled={loading} className="w-full py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-semibold disabled:opacity-50 transition-all">
               {loading ? "Signing in…" : "Sign In →"}
             </button>
@@ -352,9 +353,9 @@ function EmployerLoginScreen({ onAuth, onBack }) {
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Email</label>
-              <input type="email" required value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@company.co.za" className={inputCls} /></div>
+              <input type="email" required value={email} onChange={e=>setEmail(e.target.value)} placeholder="" className={inputCls} /></div>
             <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Password</label>
-              <input type="password" required value={password} onChange={e=>setPassword(e.target.value)} placeholder="••••••••" className={inputCls} /></div>
+              <input type="password" required value={password} onChange={e=>setPassword(e.target.value)} placeholder="" className={inputCls} /></div>
             <button type="submit" disabled={loading} className="w-full py-3 bg-emerald-700 hover:bg-emerald-600 text-white rounded-xl font-semibold disabled:opacity-50 transition-all">
               {loading ? "Signing in…" : "Sign In →"}
             </button>
@@ -430,9 +431,9 @@ function StudentAuthScreen({ onAuth, onBack }) {
           {mode === "login" ? (
             <form onSubmit={handleLogin} className="space-y-4">
               <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Email</label>
-                <input type="email" required value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@student.ac.za" className={inputCls} /></div>
+                <input type="email" required value={email} onChange={e=>setEmail(e.target.value)} placeholder="" className={inputCls} /></div>
               <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Password</label>
-                <input type="password" required value={password} onChange={e=>setPassword(e.target.value)} placeholder="••••••••" className={inputCls} /></div>
+                <input type="password" required value={password} onChange={e=>setPassword(e.target.value)} placeholder="" className={inputCls} /></div>
               <button type="submit" disabled={loading} className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold disabled:opacity-50 transition-all">
                 {loading ? "Signing in…" : "Sign In →"}
               </button>
@@ -443,15 +444,15 @@ function StudentAuthScreen({ onAuth, onBack }) {
               <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Full Name *</label>
                 <input required value={name} onChange={e=>setName(e.target.value)} placeholder="e.g. FiLo Cbia" className={inputCls} /></div>
               <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Email *</label>
-                <input type="email" required value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@student.ac.za" className={inputCls} /></div>
+                <input type="email" required value={email} onChange={e=>setEmail(e.target.value)} placeholder="" className={inputCls} /></div>
               <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Password *</label>
-                <input type="password" required minLength={6} value={password} onChange={e=>setPassword(e.target.value)} placeholder="Min. 6 characters" className={inputCls} /></div>
+                <input type="password" required minLength={6} value={password} onChange={e=>setPassword(e.target.value)} placeholder="" className={inputCls} /></div>
               <div className="grid grid-cols-2 gap-3">
                 <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Major</label>
                   <input value={major} onChange={e=>setMajor(e.target.value)} placeholder="e.g. Computer Science" className={inputCls} /></div>
                 <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Year</label>
                   <select value={year} onChange={e=>setYear(e.target.value)} className={inputCls}>
-                    {["1st Year","2nd Year","3rd Year","4th Year","Honours"].map(y=><option key={y}>{y}</option>)}
+                    {["1st Year","2nd Year","3rd Year","4th Year","Postgraduate"].map(y=><option key={y}>{y}</option>)}
                   </select></div>
               </div>
               <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Average Mark (%)</label>
@@ -481,6 +482,376 @@ function AuthScreen({ onAuth }) {
   if (selectedRole === "employer") return <EmployerLoginScreen onAuth={onAuth} onBack={() => setSelectedRole(null)} />;
   if (selectedRole === "student")  return <StudentAuthScreen  onAuth={onAuth} onBack={() => setSelectedRole(null)} />;
   return null;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  WIL MATCHING  (mock data — swap datasource to Supabase when ready)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// ── Mock data from WIL_Mock_Data_CSV.zip ─────────────────────────────────────
+const MOCK_STUDENTS = [
+  { id:"TUT2026001", firstName:"Lerato",  lastName:"Mokoena", email:"lerato@tut.ac.za",  faculty:"ICT",         programme:"Computer Science",         year:3, average:72, province:"Gauteng", city:"Pretoria",     preferredLocation:"Gauteng", relocate:true  },
+  { id:"TUT2026002", firstName:"Sipho",   lastName:"Nkosi",   email:"sipho@tut.ac.za",   faculty:"Engineering", programme:"Mechanical Engineering",   year:3, average:68, province:"Gauteng", city:"Pretoria",     preferredLocation:"Gauteng", relocate:false },
+  { id:"TUT2026003", firstName:"Ayanda",  lastName:"Zulu",    email:"ayanda@tut.ac.za",  faculty:"Business",    programme:"Accounting",               year:3, average:75, province:"KZN",     city:"Durban",       preferredLocation:"Gauteng", relocate:true  },
+];
+
+const MOCK_STUDENT_SKILLS = [
+  { studentId:"TUT2026001", skill:"Python",  level:"Advanced"     },
+  { studentId:"TUT2026001", skill:"React",   level:"Intermediate" },
+  { studentId:"TUT2026002", skill:"AutoCAD", level:"Advanced"     },
+  { studentId:"TUT2026003", skill:"Excel",   level:"Advanced"     },
+];
+
+const MOCK_EMPLOYERS = [
+  { id:1, company:"MTN",      industry:"Telecommunications", province:"Gauteng", city:"Johannesburg" },
+  { id:2, company:"Deloitte", industry:"Finance",            province:"Gauteng", city:"Midrand"      },
+  { id:3, company:"Eskom",    industry:"Energy",             province:"Gauteng", city:"Pretoria"     },
+];
+
+const MOCK_INTERNSHIPS = [
+  { id:101, employerId:1, title:"Software Developer Intern",        programme:"Computer Science",       faculty:"ICT",         location:"Johannesburg", durationMonths:12, minimumAverage:65 },
+  { id:102, employerId:2, title:"Audit Intern",                     programme:"Accounting",             faculty:"Business",    location:"Midrand",      durationMonths:12, minimumAverage:60 },
+  { id:103, employerId:3, title:"Mechanical Engineering Intern",    programme:"Mechanical Engineering", faculty:"Engineering", location:"Pretoria",     durationMonths:12, minimumAverage:65 },
+];
+
+// ── Matching engine ───────────────────────────────────────────────────────────
+function runMatching() {
+  const results = [];
+
+  for (const student of MOCK_STUDENTS) {
+    const skills = MOCK_STUDENT_SKILLS.filter(s => s.studentId === student.id);
+    const skillNames = skills.map(s => s.skill);
+
+    for (const internship of MOCK_INTERNSHIPS) {
+      const employer = MOCK_EMPLOYERS.find(e => e.id === internship.employerId);
+
+      // Hard criteria
+      const programmeMatch = student.programme === internship.programme;
+      const facultyMatch   = student.faculty    === internship.faculty;
+      const averageMatch   = student.average    >= internship.minimumAverage;
+
+      // Location: student's preferred province OR willing to relocate
+      const locationMatch =
+        student.preferredLocation?.toLowerCase() === employer?.province?.toLowerCase() ||
+        student.city?.toLowerCase() === internship.location?.toLowerCase() ||
+        student.relocate;
+
+      // Overall qualification
+      const qualifies = programmeMatch && facultyMatch && averageMatch && locationMatch;
+
+      // Build reasons list
+      const reasons = [];
+      if (skillNames.length) reasons.push(skillNames.join(" & ") + ` (${skills.map(s=>s.level.toLowerCase()).join(", ")})`);
+      if (averageMatch)      reasons.push(`${student.average}% average (min ${internship.minimumAverage}%)`);
+      if (student.year === 3 || student.year === 4) reasons.push("final-year status");
+      if (student.relocate && employer?.province !== student.province) reasons.push("willing to relocate");
+
+      // Natural language summary
+      const summary = qualifies
+        ? `${student.firstName} ${student.lastName} qualifies for ${internship.title} at ${employer?.company} in ${internship.location} based on ${reasons.join(", ")}.`
+        : `${student.firstName} ${student.lastName} does not qualify for ${internship.title} at ${employer?.company} — ${[
+            !programmeMatch ? `programme mismatch (${student.programme} ≠ ${internship.programme})` : "",
+            !averageMatch   ? `average too low (${student.average}% < ${internship.minimumAverage}%)` : "",
+            !locationMatch  ? "location not suitable and not willing to relocate" : "",
+          ].filter(Boolean).join("; ")}.`;
+
+      results.push({
+        student, internship, employer, skills,
+        qualifies,
+        criteria: [
+          { label:"Programme", pass:programmeMatch, detail:student.programme },
+          { label:"Faculty",   pass:facultyMatch,   detail:student.faculty   },
+          { label:"Average",   pass:averageMatch,   detail:`${student.average}% (min ${internship.minimumAverage}%)` },
+          { label:"Location",  pass:locationMatch,  detail:internship.location },
+        ],
+        summary,
+        score: [programmeMatch, facultyMatch, averageMatch, locationMatch].filter(Boolean).length,
+      });
+    }
+  }
+
+  return results.sort((a, b) => b.score - a.score || b.student.average - a.student.average);
+}
+
+function WILMatching() {
+  const [filter,       setFilter]       = useState("all");
+  const [search,       setSearch]       = useState("");
+  const [copied,       setCopied]       = useState(null);
+  const [liveJobs,     setLiveJobs]     = useState([]);
+  const [liveLoading,  setLiveLoading]  = useState(true);
+
+  // Fetch real internships posted by registered employers
+  useEffect(() => {
+    supabase
+      .from("internships")
+      .select("*, employers(company, location)")
+      .order("created_at", { ascending: false })
+      .then(({ data }) => {
+        setLiveJobs(
+          (data || []).map(i => ({
+            id:             "live_" + i.id,
+            employerId:     i.employer_id,
+            title:          i.internship_name,
+            programme:      null,   // not set on live internships — match by skills
+            faculty:        null,
+            location:       i.location,
+            durationMonths: i.duration || "—",
+            minimumAverage: null,   // no min set — open to all averages
+            skillsRequired: i.skills_required || [],
+            company:        i.company_name || i.employers?.company || "Unknown",
+            isLive:         true,
+          }))
+        );
+        setLiveLoading(false);
+      });
+  }, []);
+
+  // Match mock students against an internship (works for both mock + live)
+  function matchStudent(student, internship) {
+    const skills     = MOCK_STUDENT_SKILLS.filter(s => s.studentId === student.id);
+    const skillNames = skills.map(s => s.skill.toLowerCase());
+
+    if (internship.isLive) {
+      // Live internships: match on skills overlap + location
+      const required        = (internship.skillsRequired || []).map(s => s.toLowerCase());
+      const matchedSkills   = required.filter(r => skillNames.includes(r));
+      const skillsMatch     = required.length === 0 || matchedSkills.length > 0;
+      const locationMatch   =
+        student.preferredLocation?.toLowerCase() === internship.location?.toLowerCase() ||
+        student.city?.toLowerCase()              === internship.location?.toLowerCase() ||
+        student.relocate;
+      const qualifies       = skillsMatch && locationMatch;
+
+      const reasons = [];
+      if (skills.length)        reasons.push(skills.map(s => `${s.skill} (${s.level.toLowerCase()})`).join(", "));
+      if (student.average)      reasons.push(`${student.average}% average`);
+      if (student.year >= 3)    reasons.push("final-year status");
+      if (student.relocate && student.province !== internship.location) reasons.push("willing to relocate");
+
+      const missingSkills = required.filter(r => !skillNames.includes(r));
+
+      const summary = qualifies
+        ? `${student.firstName} ${student.lastName} qualifies for ${internship.title} at ${internship.company} in ${internship.location} based on ${reasons.join(", ")}.`
+        : `${student.firstName} ${student.lastName} does not qualify for ${internship.title} at ${internship.company} — ${[
+            !skillsMatch   ? `missing required skills (${missingSkills.join(", ")})` : "",
+            !locationMatch ? "location not suitable and not willing to relocate"      : "",
+          ].filter(Boolean).join("; ")}.`;
+
+      return {
+        student, internship,
+        employer: { company: internship.company, city: internship.location },
+        skills,
+        qualifies,
+        criteria: [
+          { label:"Skills",    pass:skillsMatch,   detail: required.length ? `${matchedSkills.length}/${required.length} matched` : "Any" },
+          { label:"Location",  pass:locationMatch,  detail:internship.location },
+        ],
+        summary, score: [skillsMatch, locationMatch].filter(Boolean).length,
+      };
+    } else {
+      // Mock internships: original strict matching
+      const employer        = MOCK_EMPLOYERS.find(e => e.id === internship.employerId);
+      const programmeMatch  = student.programme === internship.programme;
+      const facultyMatch    = student.faculty    === internship.faculty;
+      const averageMatch    = student.average    >= (internship.minimumAverage || 0);
+      const locationMatch   =
+        student.preferredLocation?.toLowerCase() === employer?.province?.toLowerCase() ||
+        student.city?.toLowerCase()              === internship.location?.toLowerCase() ||
+        student.relocate;
+      const qualifies       = programmeMatch && facultyMatch && averageMatch && locationMatch;
+
+      const reasons = [];
+      if (skills.length)        reasons.push(skills.map(s => `${s.skill} (${s.level.toLowerCase()})`).join(", "));
+      if (averageMatch)         reasons.push(`${student.average}% average (min ${internship.minimumAverage}%)`);
+      if (student.year >= 3)    reasons.push("final-year status");
+      if (student.relocate && employer?.province !== student.province) reasons.push("willing to relocate");
+
+      const summary = qualifies
+        ? `${student.firstName} ${student.lastName} qualifies for ${internship.title} at ${employer?.company} in ${internship.location} based on ${reasons.join(", ")}.`
+        : `${student.firstName} ${student.lastName} does not qualify for ${internship.title} at ${employer?.company} — ${[
+            !programmeMatch ? `programme mismatch (${student.programme} ≠ ${internship.programme})` : "",
+            !averageMatch   ? `average too low (${student.average}% < ${internship.minimumAverage}%)` : "",
+            !locationMatch  ? "location not suitable and not willing to relocate" : "",
+          ].filter(Boolean).join("; ")}.`;
+
+      return {
+        student, internship, employer, skills, qualifies,
+        criteria: [
+          { label:"Programme", pass:programmeMatch, detail:student.programme },
+          { label:"Faculty",   pass:facultyMatch,   detail:student.faculty   },
+          { label:"Average",   pass:averageMatch,   detail:`${student.average}% (min ${internship.minimumAverage}%)` },
+          { label:"Location",  pass:locationMatch,  detail:internship.location },
+        ],
+        summary, score: [programmeMatch, facultyMatch, averageMatch, locationMatch].filter(Boolean).length,
+      };
+    }
+  }
+
+  const allResults = [
+    ...runMatching(),   // mock data
+    ...(!liveLoading ? MOCK_STUDENTS.flatMap(s => liveJobs.map(i => matchStudent(s, i))) : []),
+  ].sort((a, b) => b.score - a.score || b.student.average - a.student.average);
+
+  const shown = allResults.filter(r => {
+    const matchFilter = filter === "all" || (filter === "qualified" ? r.qualifies : !r.qualifies);
+    const q = search.toLowerCase();
+    const matchSearch = !q ||
+      r.student.firstName.toLowerCase().includes(q) ||
+      r.student.lastName.toLowerCase().includes(q)  ||
+      r.internship.title.toLowerCase().includes(q)  ||
+      r.employer?.company.toLowerCase().includes(q);
+    return matchFilter && matchSearch;
+  });
+
+  const qualified    = allResults.filter(r => r.qualifies).length;
+  const notQualified = allResults.filter(r => !r.qualifies).length;
+
+  const copySummary = text => {
+    navigator.clipboard.writeText(text);
+    setCopied(text);
+    setTimeout(() => setCopied(null), 2000);
+  };
+
+  return (
+    <div className="space-y-6">
+      <PageHeader
+        title="WIL Matching"
+        sub="Automated qualification analysis — mock data active. Swap to real Supabase data when ready."
+      />
+
+      {/* Data source notice */}
+      <div className="flex flex-wrap gap-3">
+        <div className="flex items-center gap-3 bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3 flex-1 min-w-0">
+          <span className="text-lg">🧪</span>
+          <div>
+            <p className="text-sm font-semibold text-amber-800">Mock students (WIL_Mock_Data_CSV)</p>
+            <p className="text-xs text-amber-600">3 students — replace with live Supabase queries when ready.</p>
+          </div>
+        </div>
+        <div className={`flex items-center gap-3 rounded-2xl px-4 py-3 flex-1 min-w-0 border ${liveLoading ? "bg-gray-50 border-gray-200" : liveJobs.length ? "bg-emerald-50 border-emerald-200" : "bg-gray-50 border-gray-200"}`}>
+          <span className="text-lg">{liveLoading ? "⏳" : liveJobs.length ? "🟢" : "⚪"}</span>
+          <div>
+            <p className={`text-sm font-semibold ${liveLoading ? "text-gray-600" : liveJobs.length ? "text-emerald-800" : "text-gray-600"}`}>
+              {liveLoading ? "Loading live internships…" : liveJobs.length ? `${liveJobs.length} live internship${liveJobs.length!==1?"s":""} from registered employers` : "No live internships posted yet"}
+            </p>
+            <p className="text-xs text-gray-500">Posted by employers registered by admin.</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Stats */}
+      {!liveLoading && (
+        <div className="grid grid-cols-4 gap-4">
+          <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 text-center">
+            <p className="text-2xl font-bold text-gray-800">{allResults.length}</p>
+            <p className="text-xs text-gray-500 mt-0.5">Evaluations</p>
+          </div>
+          <div className="bg-white rounded-2xl p-4 shadow-sm border border-green-100 text-center">
+            <p className="text-2xl font-bold text-green-600">{qualified}</p>
+            <p className="text-xs text-gray-500 mt-0.5">Qualified</p>
+          </div>
+          <div className="bg-white rounded-2xl p-4 shadow-sm border border-red-100 text-center">
+            <p className="text-2xl font-bold text-red-500">{notQualified}</p>
+            <p className="text-xs text-gray-500 mt-0.5">Not Qualified</p>
+          </div>
+          <div className="bg-white rounded-2xl p-4 shadow-sm border border-emerald-100 text-center">
+            <p className="text-2xl font-bold text-emerald-600">{liveJobs.length}</p>
+            <p className="text-xs text-gray-500 mt-0.5">Live Internships</p>
+          </div>
+        </div>
+      )}
+
+      {/* Filters */}
+      <div className="flex flex-wrap gap-3 items-center">
+        <div className="relative flex-1 min-w-48">
+          <Ico.Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+          <input value={search} onChange={e => setSearch(e.target.value)}
+            placeholder="Search student, internship or company…"
+            className="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300" />
+        </div>
+        {[["all","All"],["qualified","Qualified ✓"],["notqualified","Not Qualified ✗"]].map(([v,l]) => (
+          <button key={v} onClick={() => setFilter(v)}
+            className={`px-4 py-2 rounded-xl text-sm font-medium border transition-all ${filter===v ? "bg-slate-800 text-white border-slate-800" : "bg-white text-gray-600 border-gray-200 hover:border-slate-400"}`}>{l}</button>
+        ))}
+      </div>
+
+      {/* Results */}
+      <div className="space-y-4">
+        {shown.map((r, i) => {
+          const criteria = [
+            { label:"Programme",  pass:r.programmeMatch, detail:`${r.student.programme}`          },
+            { label:"Faculty",    pass:r.facultyMatch,   detail:`${r.student.faculty}`             },
+            { label:"Average",    pass:r.averageMatch,   detail:`${r.student.average}% (min ${r.internship.minimumAverage}%)` },
+            { label:"Location",   pass:r.locationMatch,  detail:`${r.internship.location}`         },
+          ];
+
+          return (
+            <div key={i} className={`bg-white rounded-2xl p-5 shadow-sm border-l-4 ${r.qualifies ? "border-l-green-500 border border-green-100" : "border-l-red-400 border border-red-50"}`}>
+              {/* Header row */}
+              <div className="flex items-start justify-between gap-3 mb-3 flex-wrap">
+                <div className="flex items-center gap-3">
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm ${r.qualifies ? "bg-gradient-to-br from-green-400 to-emerald-600" : "bg-gradient-to-br from-red-400 to-red-600"}`}>
+                    {r.student.firstName[0]}{r.student.lastName[0]}
+                  </div>
+                  <div>
+                    <p className="font-bold text-gray-800">{r.student.firstName} {r.student.lastName}</p>
+                    <p className="text-xs text-gray-500">{r.student.id} · {r.student.email}</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="flex items-center gap-2 justify-end">
+                    <p className="text-sm font-semibold text-gray-700">{r.internship.title}</p>
+                    {r.internship.isLive && <span className="text-xs bg-emerald-100 text-emerald-700 font-semibold px-2 py-0.5 rounded-full">● Live</span>}
+                  </div>
+                  <p className="text-xs text-gray-500">{r.employer?.company || r.internship.company} · {r.internship.location}</p>
+                </div>
+                <span className={`shrink-0 text-xs font-bold px-3 py-1.5 rounded-full ${r.qualifies ? "bg-green-100 text-green-700" : "bg-red-100 text-red-600"}`}>
+                  {r.qualifies ? "✓ Qualifies" : "✗ Does Not Qualify"}
+                </span>
+              </div>
+
+              {/* Criteria chips */}
+              <div className="flex flex-wrap gap-2 mb-3">
+                {r.criteria.map(c => (
+                  <span key={c.label} className={`flex items-center gap-1 text-xs px-2.5 py-1 rounded-full font-medium ${c.pass ? "bg-green-50 text-green-700 border border-green-200" : "bg-red-50 text-red-600 border border-red-200"}`}>
+                    {c.pass ? <Ico.Check className="w-3 h-3"/> : <Ico.X className="w-3 h-3"/>} {c.label}: {c.detail}
+                  </span>
+                ))}
+                {r.skills.map(s => (
+                  <span key={s.skill} className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-full font-medium bg-indigo-50 text-indigo-700 border border-indigo-200">
+                    🔧 {s.skill} ({s.level})
+                  </span>
+                ))}
+              </div>
+
+              {/* Natural language summary */}
+              <div className={`rounded-xl px-4 py-3 text-sm font-medium leading-relaxed flex items-start justify-between gap-3 ${r.qualifies ? "bg-green-50 text-green-800" : "bg-red-50 text-red-800"}`}>
+                <p>"{r.summary}"</p>
+                <button
+                  onClick={() => copySummary(r.summary)}
+                  title="Copy summary"
+                  className="shrink-0 mt-0.5 text-gray-400 hover:text-gray-700 transition-colors">
+                  {copied === r.summary ? <Ico.Check className="w-4 h-4 text-green-600" /> : (
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <rect x="9" y="9" width="13" height="13" rx="2" strokeWidth="2"/>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" strokeWidth="2"/>
+                    </svg>
+                  )}
+                </button>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {shown.length === 0 && (
+        <div className="text-center py-16 text-gray-400 bg-white rounded-2xl">
+          <p className="text-4xl mb-3">🔍</p>
+          <p className="font-medium">No results match your filter.</p>
+        </div>
+      )}
+    </div>
+  );
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -722,9 +1093,13 @@ function AvailableInternships({ profile }) {
   const [search,      setSearch]      = useState("");
   const [type,        setType]        = useState("All");
   const [detail,      setDetail]      = useState(null);
+  const [applyTarget, setApplyTarget] = useState(null);
+  const [cvFile,      setCvFile]      = useState(null);
+  const [motivation,  setMotivation]  = useState("");
+  const [uploading,   setUploading]   = useState(false);
   const [toast,       setToast]       = useState(null);
 
-  const showToast = (message, t="success") => { setToast({message,type:t}); setTimeout(()=>setToast(null),3000); };
+  const showToast = (message, t="success") => { setToast({message,type:t}); setTimeout(()=>setToast(null),3500); };
 
   useEffect(() => {
     async function load() {
@@ -739,11 +1114,46 @@ function AvailableInternships({ profile }) {
     load();
   }, [profile.id]);
 
-  const handleApply = async id => {
-    const { error } = await supabase.from("applications").insert({ student_id: profile.id, internship_id: id, status: "pending", applied_date: new Date().toISOString().split("T")[0] });
-    if (error) { showToast(error.message, "error"); return; }
-    setAppliedIds(prev => [...prev, id]);
-    showToast("Application submitted!");
+  const openApply = internship => { setApplyTarget(internship); setCvFile(null); setMotivation(""); };
+  const closeApply = () => { setApplyTarget(null); setCvFile(null); setMotivation(""); };
+
+  const handleApply = async () => {
+    if (!motivation.trim() && !cvFile) {
+      showToast("Please fill in your motivation or upload your CV.", "error"); return;
+    }
+    if (cvFile && cvFile.type !== "application/pdf") { showToast("Only PDF files are accepted.", "error"); return; }
+    if (cvFile && cvFile.size > 5 * 1024 * 1024) { showToast("CV must be under 5 MB.", "error"); return; }
+
+    setUploading(true);
+    try {
+      let cvUrl = null;
+
+      // Upload CV if provided
+      if (cvFile) {
+        const filePath = `${profile.id}/${applyTarget.id}_${Date.now()}.pdf`;
+        const { error: upErr } = await supabase.storage.from("cvs").upload(filePath, cvFile, { upsert: true });
+        if (upErr) throw new Error("CV upload failed: " + upErr.message);
+        const { data: urlData } = await supabase.storage.from("cvs").createSignedUrl(filePath, 60 * 60 * 24 * 365 * 10);
+        cvUrl = urlData?.signedUrl || null;
+      }
+
+      const { error: appErr } = await supabase.from("applications").insert({
+        student_id:    profile.id,
+        internship_id: applyTarget.id,
+        status:        "pending",
+        applied_date:  new Date().toISOString().split("T")[0],
+        cv_url:        cvUrl,
+        motivation:    motivation.trim() || null,
+      });
+      if (appErr) throw new Error(appErr.message);
+
+      setAppliedIds(prev => [...prev, applyTarget.id]);
+      showToast(cvFile ? "Application submitted with CV!" : "Application submitted!");
+      closeApply();
+    } catch (err) {
+      showToast(err.message, "error");
+    }
+    setUploading(false);
   };
 
   const filtered = internships.filter(i => {
@@ -790,7 +1200,7 @@ function AvailableInternships({ profile }) {
                 {applied ? (
                   <button disabled className="flex-1 py-2 bg-gray-100 text-gray-400 rounded-xl text-sm font-medium cursor-not-allowed">Applied ✓</button>
                 ) : (
-                  <button onClick={() => handleApply(i.id)} className="flex-1 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-semibold transition-all">Apply</button>
+                  <button onClick={() => openApply(i)} className="flex-1 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-semibold transition-all">Apply</button>
                 )}
               </div>
             </div>
@@ -831,8 +1241,94 @@ function AvailableInternships({ profile }) {
               {appliedIds.includes(detail.id) ? (
                 <button disabled className="flex-1 py-2.5 bg-gray-100 text-gray-400 rounded-xl text-sm">Applied ✓</button>
               ) : (
-                <button onClick={() => { handleApply(detail.id); setDetail(null); }} className="flex-1 py-2.5 bg-indigo-600 text-white rounded-xl text-sm font-semibold hover:bg-indigo-700">Apply Now</button>
+                <button onClick={() => { setDetail(null); openApply(detail); }} className="flex-1 py-2.5 bg-indigo-600 text-white rounded-xl text-sm font-semibold hover:bg-indigo-700">Apply Now</button>
               )}
+            </div>
+          </div>
+        </Modal>
+      )}
+
+      {/* ── Apply Modal ── */}
+      {applyTarget && (
+        <Modal onClose={closeApply}>
+          <div className="p-6">
+            {/* Header */}
+            <div className="flex justify-between items-start mb-5">
+              <div>
+                <h2 className="text-lg font-bold text-gray-800">{applyTarget.internship_name}</h2>
+                <p className="text-indigo-600 font-medium text-sm">{applyTarget.company_name}</p>
+              </div>
+              <button onClick={closeApply} className="p-2 hover:bg-gray-100 rounded-xl"><Ico.X className="w-4 h-4" /></button>
+            </div>
+
+            {/* Pre-filled student info */}
+            <div className="bg-gray-50 rounded-xl p-4 mb-5 space-y-2">
+              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Your Profile</p>
+              <div className="grid grid-cols-2 gap-2 text-sm">
+                <div><p className="text-xs text-gray-400">Name</p><p className="font-medium text-gray-800">{profile.name}</p></div>
+                <div><p className="text-xs text-gray-400">Email</p><p className="font-medium text-gray-800 truncate">{profile.email}</p></div>
+                <div><p className="text-xs text-gray-400">Major</p><p className="font-medium text-gray-800">{profile.major || "—"}</p></div>
+                <div><p className="text-xs text-gray-400">Year</p><p className="font-medium text-gray-800">{profile.year || "—"}</p></div>
+                <div><p className="text-xs text-gray-400">Average Mark</p><p className="font-medium text-gray-800">{profile.average_mark != null ? `${profile.average_mark}%` : "—"}</p></div>
+                <div><p className="text-xs text-gray-400">Skills Match</p><p className={`font-semibold ${skillMatch(profile.skills||[], applyTarget.skills_required||[]).percent >= 70 ? "text-green-600" : "text-amber-600"}`}>{skillMatch(profile.skills||[], applyTarget.skills_required||[]).percent}%</p></div>
+              </div>
+            </div>
+
+            {/* Motivation */}
+            <div className="mb-5">
+              <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+                Motivation / Why you're a great fit
+                <span className="ml-1 text-xs font-normal text-gray-400">(optional if uploading CV)</span>
+              </label>
+              <textarea
+                value={motivation}
+                onChange={e => setMotivation(e.target.value)}
+                rows={4}
+                placeholder="Tell the employer why you're interested in this role and what you bring to it…"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 resize-none"
+              />
+            </div>
+
+            {/* CV Upload */}
+            <div className="mb-5">
+              <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+                Upload CV (PDF)
+                <span className="ml-1 text-xs font-normal text-gray-400">(optional if filling motivation above)</span>
+              </label>
+              <div
+                onClick={() => document.getElementById("cv-file-input").click()}
+                className={`cursor-pointer border-2 border-dashed rounded-xl p-5 text-center transition-all ${cvFile ? "border-indigo-400 bg-indigo-50" : "border-gray-200 hover:border-indigo-300 hover:bg-gray-50"}`}>
+                {cvFile ? (
+                  <div className="flex items-center justify-center gap-3">
+                    <span className="text-2xl">📄</span>
+                    <div className="text-left">
+                      <p className="text-sm font-semibold text-indigo-700">{cvFile.name}</p>
+                      <p className="text-xs text-gray-500">{(cvFile.size / 1024).toFixed(0)} KB · PDF</p>
+                    </div>
+                    <button type="button" onClick={e => { e.stopPropagation(); setCvFile(null); }} className="ml-auto text-red-400 hover:text-red-600">
+                      <Ico.X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <p className="text-3xl mb-1">📤</p>
+                    <p className="text-sm font-medium text-gray-600">Click to select your CV</p>
+                    <p className="text-xs text-gray-400 mt-0.5">PDF only · Max 5 MB</p>
+                  </>
+                )}
+              </div>
+              <input id="cv-file-input" type="file" accept="application/pdf" className="hidden"
+                onChange={e => setCvFile(e.target.files?.[0] || null)} />
+            </div>
+
+            <div className="flex gap-3">
+              <button onClick={closeApply} className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-medium hover:bg-gray-50">Cancel</button>
+              <button onClick={handleApply} disabled={uploading}
+                className="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-semibold disabled:opacity-50 transition-all flex items-center justify-center gap-2">
+                {uploading
+                  ? <><div className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" /> Submitting…</>
+                  : "Submit Application"}
+              </button>
             </div>
           </div>
         </Modal>
@@ -841,12 +1337,14 @@ function AvailableInternships({ profile }) {
   );
 }
 
-function MyApplications({ profile }) {
-  const [apps,       setApps]       = useState([]);
-  const [loading,    setLoading]    = useState(true);
-  const [filter,     setFilter]     = useState("all");
-  const [confirmDel, setConfirmDel] = useState(null);
-  const [toast,      setToast]      = useState(null);
+function MyApplications({ profile, onNavigate }) {
+  const [apps,         setApps]         = useState([]);
+  const [loading,      setLoading]      = useState(true);
+  const [filter,       setFilter]       = useState("all");
+  const [confirmDel,   setConfirmDel]   = useState(null);
+  const [toast,        setToast]        = useState(null);
+  const [liveInternships, setLiveInternships] = useState([]);
+  const [matchLoading, setMatchLoading] = useState(true);
 
   const showToast = (message, t="success") => { setToast({message,type:t}); setTimeout(()=>setToast(null),3000); };
 
@@ -863,6 +1361,18 @@ function MyApplications({ profile }) {
 
   useEffect(() => { load(); }, [load]);
 
+  // Fetch live internships posted by registered employers
+  useEffect(() => {
+    supabase
+      .from("internships")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .then(({ data }) => {
+        setLiveInternships(data || []);
+        setMatchLoading(false);
+      });
+  }, []);
+
   const handleDelete = async id => {
     await supabase.from("applications").delete().eq("id", id);
     setConfirmDel(null);
@@ -870,52 +1380,163 @@ function MyApplications({ profile }) {
     load();
   };
 
+  // Build qualified matches for this student from live internships
+  const studentSkills = (profile.skills || []).map(s => s.toLowerCase());
+  const appliedIds    = apps.map(a => a.internship_id);
+
+  const qualifiedMatches = liveInternships
+    .filter(i => !appliedIds.includes(i.id)) // exclude already applied
+    .map(i => {
+      const required     = (i.skills_required || []).map(s => s.toLowerCase());
+      const matched      = required.filter(r => studentSkills.includes(r));
+      const missing      = required.filter(r => !studentSkills.includes(r));
+      const skillPct     = required.length ? Math.round((matched.length / required.length) * 100) : 100;
+      const qualifies    = skillPct >= 50; // 50%+ skills match = qualifies
+
+      // Natural language reason
+      const reasons = [];
+      if (matched.length)          reasons.push(matched.join(", "));
+      if (profile.average_mark)    reasons.push(`${profile.average_mark}% average`);
+      if (profile.year === "3rd Year" || profile.year === "4th Year" || profile.year === "Postgraduate")
+                                   reasons.push("final-year status");
+
+      const summary = qualifies
+        ? `You qualify for ${i.internship_name} at ${i.company_name} in ${i.location}${reasons.length ? ` based on ${reasons.join(", ")}` : ""}.`
+        : null;
+
+      return { internship: i, skillPct, matched, missing, qualifies, summary };
+    })
+    .filter(m => m.qualifies)
+    .sort((a, b) => b.skillPct - a.skillPct);
+
   const shown = filter === "all" ? apps : apps.filter(a => a.status === filter);
 
   if (loading) return <Spinner />;
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {toast && <Toast {...toast} />}
-      <PageHeader title="My Applications" sub={`${apps.length} application${apps.length!==1?"s":""} submitted`} />
-      <div className="flex gap-2 flex-wrap">
-        {[["all","All"],["pending","Pending"],["interview","Interview Scheduled"],["declined","Declined"]].map(([v,l]) => (
-          <button key={v} onClick={() => setFilter(v)} className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${filter===v ? "bg-indigo-600 text-white":"bg-white border border-gray-200 text-gray-600 hover:border-indigo-300"}`}>{l}</button>
-        ))}
-      </div>
-      {shown.length === 0 ? (
-        <div className="text-center py-16 text-gray-400 bg-white rounded-2xl"><Ico.List className="w-10 h-10 mx-auto mb-2 opacity-30" /><p>No applications found.</p></div>
-      ) : (
-        <div className="space-y-4">
-          {shown.map(a => (
-            <div key={a.id} className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-              <div className="flex items-start justify-between mb-2">
-                <div><h3 className="font-semibold text-gray-800">{a.internships?.internship_name}</h3><p className="text-indigo-600 text-sm font-medium">{a.internships?.company_name}</p></div>
-                <Badge status={a.status} />
-              </div>
-              <div className="flex flex-wrap gap-4 text-xs text-gray-500 mb-2">
-                <span className="flex items-center gap-1"><Ico.MapPin />{a.internships?.location}</span>
-                <span className="flex items-center gap-1"><Ico.Clock />{a.internships?.duration}</span>
-                <span className="flex items-center gap-1"><Ico.Tag />{a.internships?.type}</span>
-              </div>
-              <div className="flex flex-wrap gap-1.5 mb-3">
-                {(a.internships?.skills_required||[]).map(s=><span key={s} className="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full">{s}</span>)}
-              </div>
-              <div className="flex items-center justify-between text-xs text-gray-400">
-                <div className="flex flex-col gap-0.5">
-                  <span>Applied: {a.applied_date}</span>
-                  {a.status==="interview" && a.interview_date && <span className="text-blue-600 font-semibold">📅 Interview: {a.interview_date}</span>}
-                  {a.note && <span className="italic">"{a.note}"</span>}
-                </div>
-                {a.status==="pending" && (
-                  <button onClick={() => setConfirmDel(a.id)} className="flex items-center gap-1.5 px-3 py-1.5 text-red-600 hover:bg-red-50 rounded-xl border border-red-100 text-xs font-medium transition-all">
-                    <Ico.Trash className="w-3.5 h-3.5" /> Withdraw
-                  </button>
-                )}
-              </div>
-            </div>
+
+      {/* ── My Applications ── */}
+      <div className="space-y-4">
+        <PageHeader title="My Applications" sub={`${apps.length} application${apps.length!==1?"s":""} submitted`} />
+        <div className="flex gap-2 flex-wrap">
+          {[["all","All"],["pending","Pending"],["interview","Interview Scheduled"],["declined","Declined"]].map(([v,l]) => (
+            <button key={v} onClick={() => setFilter(v)} className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${filter===v ? "bg-indigo-600 text-white":"bg-white border border-gray-200 text-gray-600 hover:border-indigo-300"}`}>{l}</button>
           ))}
         </div>
-      )}
+        {shown.length === 0 ? (
+          <div className="text-center py-12 text-gray-400 bg-white rounded-2xl"><Ico.List className="w-10 h-10 mx-auto mb-2 opacity-30" /><p>No applications found.</p></div>
+        ) : (
+          <div className="space-y-4">
+            {shown.map(a => (
+              <div key={a.id} className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+                <div className="flex items-start justify-between mb-2">
+                  <div><h3 className="font-semibold text-gray-800">{a.internships?.internship_name}</h3><p className="text-indigo-600 text-sm font-medium">{a.internships?.company_name}</p></div>
+                  <Badge status={a.status} />
+                </div>
+                <div className="flex flex-wrap gap-4 text-xs text-gray-500 mb-2">
+                  <span className="flex items-center gap-1"><Ico.MapPin />{a.internships?.location}</span>
+                  <span className="flex items-center gap-1"><Ico.Clock />{a.internships?.duration}</span>
+                  <span className="flex items-center gap-1"><Ico.Tag />{a.internships?.type}</span>
+                </div>
+                <div className="flex flex-wrap gap-1.5 mb-3">
+                  {(a.internships?.skills_required||[]).map(s=><span key={s} className="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full">{s}</span>)}
+                </div>
+                <div className="flex items-center justify-between text-xs text-gray-400">
+                  <div className="flex flex-col gap-0.5">
+                    <span>Applied: {a.applied_date}</span>
+                    {a.status==="interview" && a.interview_date && <span className="text-blue-600 font-semibold">📅 Interview: {a.interview_date}</span>}
+                    {a.note && <span className="italic">"{a.note}"</span>}
+                  </div>
+                  {a.status==="pending" && (
+                    <button onClick={() => setConfirmDel(a.id)} className="flex items-center gap-1.5 px-3 py-1.5 text-red-600 hover:bg-red-50 rounded-xl border border-red-100 text-xs font-medium transition-all">
+                      <Ico.Trash className="w-3.5 h-3.5" /> Withdraw
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* ── Opportunities You Qualify For ── */}
+      <div className="space-y-4">
+        <div className="flex items-center gap-3">
+          <div>
+            <h2 className="text-lg font-bold text-gray-800">Opportunities You Qualify For</h2>
+            <p className="text-sm text-gray-500">Based on your skills, average mark and year of study.</p>
+          </div>
+          {!matchLoading && (
+            <span className="ml-auto text-xs font-semibold bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-full">
+              {qualifiedMatches.length} match{qualifiedMatches.length !== 1 ? "es" : ""}
+            </span>
+          )}
+        </div>
+
+        {matchLoading ? <Spinner /> : qualifiedMatches.length === 0 ? (
+          <div className="text-center py-12 text-gray-400 bg-white rounded-2xl border border-gray-100">
+            <p className="text-3xl mb-2">🔍</p>
+            <p className="font-medium text-sm">No new matches right now.</p>
+            <p className="text-xs mt-1">Employers post new internships regularly — check back soon.</p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {qualifiedMatches.map(({ internship: i, skillPct, matched, missing, summary }) => (
+              <div key={i.id} className="bg-white rounded-2xl p-5 shadow-sm border border-green-100 border-l-4 border-l-green-500">
+                {/* Header */}
+                <div className="flex items-start justify-between gap-3 mb-3 flex-wrap">
+                  <div>
+                    <h3 className="font-semibold text-gray-800">{i.internship_name}</h3>
+                    <p className="text-indigo-600 text-sm font-medium">{i.company_name}</p>
+                  </div>
+                  <span className="shrink-0 text-xs font-bold px-3 py-1.5 rounded-full bg-green-100 text-green-700">✓ Qualifies</span>
+                </div>
+
+                {/* Meta */}
+                <div className="flex flex-wrap gap-4 text-xs text-gray-500 mb-3">
+                  <span className="flex items-center gap-1"><Ico.MapPin />{i.location}</span>
+                  <span className="flex items-center gap-1"><Ico.Clock />{i.duration}</span>
+                  <span className="flex items-center gap-1"><Ico.Tag />{i.type}</span>
+                </div>
+
+                {/* Skills match chips */}
+                <div className="flex flex-wrap gap-1.5 mb-3">
+                  {(i.skills_required||[]).map(s => {
+                    const have = studentSkills.includes(s.toLowerCase());
+                    return (
+                      <span key={s} className={`text-xs px-2.5 py-0.5 rounded-full font-medium flex items-center gap-1 ${have ? "bg-green-100 text-green-700" : "bg-red-50 text-red-600"}`}>
+                        {have ? <Ico.Check className="w-3 h-3"/> : <Ico.X className="w-3 h-3"/>}{s}
+                      </span>
+                    );
+                  })}
+                </div>
+
+                {/* Match bar */}
+                <div className="mb-3"><MatchBar percent={skillPct} /></div>
+
+                {/* Natural language summary */}
+                <div className="bg-green-50 rounded-xl px-4 py-2.5 text-xs text-green-800 font-medium mb-3 leading-relaxed">
+                  "{summary}"
+                </div>
+
+                {/* Missing skills */}
+                {missing.length > 0 && (
+                  <p className="text-xs text-amber-600 mb-3">⚠ Skills you're missing: {missing.join(", ")}</p>
+                )}
+
+                {/* Quick Apply button — opens Available Internships */}
+                <button
+                  onClick={() => onNavigate("internships")}
+                  className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-2">
+                  Apply Now →
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
       {confirmDel && (
         <ConfirmModal message="Withdraw this application?" sub="You can re-apply later."
           onConfirm={() => handleDelete(confirmDel)} onCancel={() => setConfirmDel(null)} confirmLabel="Withdraw" />
@@ -1212,6 +1833,139 @@ function Opportunities() {
   );
 }
 
+// ─── Career News ──────────────────────────────────────────────────────────────
+
+const NEWS_CATEGORIES = ["All","Career Tips","Graduate","Learnerships","Tech","Finance","Engineering"];
+
+// Curated SA career news sources with direct RSS/article links
+const NEWS_SOURCES = [
+  { name:"Careers24",          url:"https://www.careers24.com/news/",                        logo:"🇿🇦" },
+  { name:"MyBroadband Careers", url:"https://mybroadband.co.za/news/category/recruitment",   logo:"💻" },
+  { name:"BusinessTech",        url:"https://businesstech.co.za/news/recruitment/",           logo:"📊" },
+  { name:"Graduate Placements", url:"https://www.graduateplacements.co.za/news/",            logo:"🎓" },
+];
+
+// Curated seed articles — replaced with live feed when API key added
+const SEED_ARTICLES = [
+  { id:1,  title:"Top 10 Graduate Programmes Open for 2025 Applications",            source:"Careers24",         category:"Graduate",     date:"2025-06-10", readTime:"4 min", url:"https://www.careers24.com/news/", summary:"Major South African corporates including ABSA, Deloitte and MTN have opened applications for their 2025 graduate intake. Deadlines range from July to September." },
+  { id:2,  title:"How to Write a CV That Gets You the Interview",                    source:"Graduate Placements",category:"Career Tips",  date:"2025-06-08", readTime:"5 min", url:"https://www.graduateplacements.co.za/", summary:"Recruiters spend an average of 7 seconds scanning a CV. Here's what SA hiring managers actually look for — and what gets you discarded instantly." },
+  { id:3,  title:"Eskom Internship Programme: 2025 Intake Now Open",                 source:"BusinessTech",      category:"Engineering",  date:"2025-06-07", readTime:"3 min", url:"https://businesstech.co.za/news/recruitment/", summary:"Eskom has announced its annual internship programme for engineering, finance and IT graduates. 200 positions available across Gauteng and Mpumalanga." },
+  { id:4,  title:"Tech Skills Most in Demand in South Africa Right Now",              source:"MyBroadband Careers",category:"Tech",        date:"2025-06-06", readTime:"6 min", url:"https://mybroadband.co.za/news/category/recruitment", summary:"Python, cloud computing and cybersecurity top the list of skills SA employers are struggling to fill. Here's how to position yourself for these roles." },
+  { id:5,  title:"SETA Learnerships Available in All 9 Provinces",                   source:"Careers24",         category:"Learnerships", date:"2025-06-05", readTime:"4 min", url:"https://www.careers24.com/news/", summary:"The Services SETA has announced over 500 learnerships in business administration, IT and finance for graduates and school-leavers." },
+  { id:6,  title:"Big 4 Accounting Firms Ramp Up Graduate Hiring in SA",             source:"BusinessTech",      category:"Finance",      date:"2025-06-04", readTime:"5 min", url:"https://businesstech.co.za/news/recruitment/", summary:"Deloitte, PwC, KPMG and EY are collectively hiring more than 1 200 graduates for their 2025 audit and advisory intakes. Here's how to apply." },
+  { id:7,  title:"Interview Tips: What SA Recruiters Are Asking in 2025",            source:"Graduate Placements",category:"Career Tips", date:"2025-06-03", readTime:"5 min", url:"https://www.graduateplacements.co.za/", summary:"Competency-based questions are replacing traditional interviews at many SA corporates. We asked 15 recruiters what they're looking for." },
+  { id:8,  title:"Remote Work vs Office: What SA Graduates Prefer in 2025",          source:"MyBroadband Careers",category:"Career Tips", date:"2025-06-02", readTime:"4 min", url:"https://mybroadband.co.za/news/category/recruitment", summary:"A survey of 2 000 SA graduates reveals a sharp split — 60% prefer hybrid, 25% full remote. How does this affect your job search strategy?" },
+  { id:9,  title:"Vodacom & MTN Announce Joint Digital Skills Learnership",           source:"BusinessTech",      category:"Learnerships", date:"2025-06-01", readTime:"3 min", url:"https://businesstech.co.za/news/recruitment/", summary:"The two telecoms giants have partnered on a 12-month digital skills programme targeting 1 000 unemployed youth across SA." },
+  { id:10, title:"LinkedIn Profile Tips for South African Job Seekers",              source:"Careers24",         category:"Career Tips",  date:"2025-05-31", readTime:"6 min", url:"https://www.careers24.com/news/", summary:"A complete LinkedIn profile is 40x more likely to receive opportunities. Here's the exact checklist SA recruiters recommend." },
+  { id:11, title:"AWS & Microsoft Partner to Train 50 000 SA Cloud Professionals",   source:"MyBroadband Careers",category:"Tech",        date:"2025-05-30", readTime:"4 min", url:"https://mybroadband.co.za/news/category/recruitment", summary:"A new initiative will offer free cloud certifications to South African youth through a government-backed digital skills programme." },
+  { id:12, title:"Mechanical & Civil Engineering: Where the Jobs Are in 2025",       source:"BusinessTech",      category:"Engineering",  date:"2025-05-29", readTime:"5 min", url:"https://businesstech.co.za/news/recruitment/", summary:"Infrastructure spend from Transnet, Eskom and municipalities is driving a surge in demand for engineers — especially outside Gauteng." },
+];
+
+const CATEGORY_NEWS_COLORS = {
+  "Career Tips":  { bg:"bg-indigo-100",  text:"text-indigo-800"  },
+  "Graduate":     { bg:"bg-emerald-100", text:"text-emerald-800" },
+  "Learnerships": { bg:"bg-purple-100",  text:"text-purple-800"  },
+  "Tech":         { bg:"bg-blue-100",    text:"text-blue-800"    },
+  "Finance":      { bg:"bg-amber-100",   text:"text-amber-800"   },
+  "Engineering":  { bg:"bg-rose-100",    text:"text-rose-800"    },
+};
+
+function CareerNews() {
+  const [category, setCategory] = useState("All");
+  const [search,   setSearch]   = useState("");
+
+  const filtered = SEED_ARTICLES.filter(a => {
+    const matchCat = category === "All" || a.category === category;
+    const q = search.toLowerCase();
+    const matchSearch = !q || a.title.toLowerCase().includes(q) || a.summary.toLowerCase().includes(q) || a.source.toLowerCase().includes(q);
+    return matchCat && matchSearch;
+  });
+
+  return (
+    <div className="space-y-6">
+      <PageHeader title="Career News" sub="Latest graduate opportunities, career tips and industry news for SA students." />
+
+      {/* News source quick-links */}
+      <div className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm">
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Browse SA Career News Sources</p>
+        <div className="flex flex-wrap gap-2">
+          {NEWS_SOURCES.map(s => (
+            <a key={s.name} href={s.url} target="_blank" rel="noreferrer"
+              className="flex items-center gap-2 px-3 py-2 border border-gray-100 rounded-xl hover:border-indigo-300 hover:bg-indigo-50 transition-all group text-sm">
+              <span>{s.logo}</span>
+              <span className="font-medium text-gray-700 group-hover:text-indigo-700">{s.name}</span>
+              <Ico.ExternalLink className="w-3 h-3 text-gray-300 group-hover:text-indigo-400" />
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* Filters */}
+      <div className="flex flex-wrap gap-3 items-center">
+        <div className="relative flex-1 min-w-48">
+          <Ico.Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+          <input value={search} onChange={e => setSearch(e.target.value)}
+            placeholder="Search news…"
+            className="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300" />
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {NEWS_CATEGORIES.map(c => (
+            <button key={c} onClick={() => setCategory(c)}
+              className={`px-3 py-1.5 rounded-xl text-sm font-medium border transition-all ${category === c ? "bg-indigo-600 text-white border-indigo-600" : "bg-white text-gray-600 border-gray-200 hover:border-indigo-300"}`}>
+              {c}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <p className="text-sm text-gray-500">{filtered.length} article{filtered.length !== 1 ? "s" : ""}</p>
+
+      {/* Featured article */}
+      {filtered.length > 0 && category === "All" && !search && (
+        <a href={filtered[0].url} target="_blank" rel="noreferrer"
+          className="block bg-gradient-to-br from-indigo-600 to-indigo-900 rounded-2xl p-6 text-white hover:opacity-95 transition-all shadow-lg">
+          <div className="flex items-center gap-2 mb-3">
+            <span className={`text-xs font-bold px-2.5 py-1 rounded-full bg-white/20`}>{filtered[0].category}</span>
+            <span className="text-white/60 text-xs">{filtered[0].source} · {filtered[0].date} · {filtered[0].readTime} read</span>
+          </div>
+          <h2 className="text-xl font-bold leading-snug mb-2">{filtered[0].title}</h2>
+          <p className="text-white/75 text-sm leading-relaxed">{filtered[0].summary}</p>
+          <p className="mt-4 text-xs font-semibold text-white/60 flex items-center gap-1">Read full article <Ico.ExternalLink className="w-3 h-3" /></p>
+        </a>
+      )}
+
+      {/* Article grid */}
+      <div className="grid md:grid-cols-2 gap-4">
+        {(category === "All" && !search ? filtered.slice(1) : filtered).map(a => {
+          const cat = CATEGORY_NEWS_COLORS[a.category] || { bg:"bg-gray-100", text:"text-gray-700" };
+          return (
+            <a key={a.id} href={a.url} target="_blank" rel="noreferrer"
+              className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md hover:border-indigo-200 transition-all flex flex-col gap-3 group">
+              <div className="flex items-center justify-between gap-2">
+                <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${cat.bg} ${cat.text}`}>{a.category}</span>
+                <span className="text-xs text-gray-400">{a.readTime} read</span>
+              </div>
+              <h3 className="font-bold text-gray-800 text-sm leading-snug group-hover:text-indigo-700 transition-colors">{a.title}</h3>
+              <p className="text-xs text-gray-500 leading-relaxed flex-1">{a.summary}</p>
+              <div className="flex items-center justify-between pt-2 border-t border-gray-50">
+                <span className="text-xs text-gray-400">{a.source} · {a.date}</span>
+                <span className="text-xs font-semibold text-indigo-600 flex items-center gap-1">Read more <Ico.ExternalLink className="w-3 h-3" /></span>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+
+      {filtered.length === 0 && (
+        <div className="text-center py-16 text-gray-400 bg-white rounded-2xl">
+          <p className="text-4xl mb-3">📰</p>
+          <p className="font-medium">No articles match your search.</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ═══════════════════════════════════════════════════════════════════════════════
 //  EMPLOYER PAGES
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -1383,7 +2137,7 @@ function ViewApplicants({ profile }) {
     if (ids.length) {
       const { data: myApps } = await supabase
         .from("applications")
-        .select("*, internships(internship_name, skills_required), students(major,year,average_mark,skills,profiles(name,email))")
+        .select("*, cv_url, motivation, internships(internship_name, skills_required), students(major,year,average_mark,skills,profiles(name,email))")
         .in("internship_id", ids)
         .order("created_at", { ascending: false });
       setApps(myApps||[]);
@@ -1449,10 +2203,40 @@ function ViewApplicants({ profile }) {
                     return <span key={s} className={`text-xs px-2 py-0.5 rounded-full font-medium ${match?"bg-green-100 text-green-700":"bg-gray-100 text-gray-500"}`}>{s}</span>;
                   })}
                 </div>
-                <div className="mb-2"><MatchBar percent={req.percent} /></div>
-                {req.percent < 100 && (
-                  <p className="text-xs text-red-500 mb-2">Missing: {(a.internships?.skills_required||[]).filter(r=>!(student.skills||[]).map(s=>s.toLowerCase()).includes(r.toLowerCase())).join(", ")}</p>
+                {/* Skills scan */}
+                <div className="bg-gray-50 rounded-xl p-3 mb-3 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <p className="text-xs font-semibold text-gray-600">Requirements Scan</p>
+                    <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${req.percent >= 70 ? "bg-green-100 text-green-700" : req.percent >= 40 ? "bg-amber-100 text-amber-700" : "bg-red-100 text-red-600"}`}>
+                      {req.percent >= 70 ? "✓ Good Match" : req.percent >= 40 ? "⚠ Partial Match" : "✗ Low Match"}
+                    </span>
+                  </div>
+                  <MatchBar percent={req.percent} />
+                  {req.percent < 100 && (a.internships?.skills_required||[]).filter(r=>!(student.skills||[]).map(s=>s.toLowerCase()).includes(r.toLowerCase())).length > 0 && (
+                    <p className="text-xs text-red-500">Missing skills: {(a.internships?.skills_required||[]).filter(r=>!(student.skills||[]).map(s=>s.toLowerCase()).includes(r.toLowerCase())).join(", ")}</p>
+                  )}
+                </div>
+
+                {/* Motivation */}
+                {a.motivation && (
+                  <div className="mb-3 bg-blue-50 border border-blue-100 rounded-xl p-3">
+                    <p className="text-xs font-semibold text-blue-700 mb-1">Motivation</p>
+                    <p className="text-xs text-gray-700 leading-relaxed">{a.motivation}</p>
+                  </div>
                 )}
+
+                {/* CV download */}
+                {a.cv_url ? (
+                  <a href={a.cv_url} target="_blank" rel="noreferrer"
+                    className="mb-3 flex items-center gap-2 px-4 py-2.5 border border-emerald-200 bg-emerald-50 rounded-xl text-sm font-semibold text-emerald-700 hover:bg-emerald-100 transition-all w-full">
+                    <span className="text-lg">📄</span> Download CV <Ico.ExternalLink className="ml-auto" />
+                  </a>
+                ) : (
+                  <div className="mb-3 flex items-center gap-2 px-4 py-2.5 border border-gray-100 bg-gray-50 rounded-xl text-sm text-gray-400 w-full">
+                    <span className="text-lg">📄</span> No CV uploaded
+                  </div>
+                )}
+
                 <div className="flex items-center justify-between">
                   <div className="text-xs text-gray-400">
                     Applied: {a.applied_date}
@@ -1567,12 +2351,14 @@ export default function App() {
     if (role === "admin") {
       if (activePage === "dashboard") return <AdminDashboard />;
       if (activePage === "employers") return <ManageEmployers adminProfile={profile} />;
+      if (activePage === "matching")  return <WILMatching />;
     }
     if (role === "student") {
       if (activePage === "dashboard")    return <StudentDashboard profile={profile} />;
       if (activePage === "internships")   return <AvailableInternships profile={profile} />;
       if (activePage === "opportunities") return <Opportunities />;
-      if (activePage === "applications")  return <MyApplications profile={profile} />;
+      if (activePage === "applications")  return <MyApplications profile={profile} onNavigate={setActivePage} />;
+      if (activePage === "news")          return <CareerNews />;
     }
     if (role === "employer") {
       if (activePage === "dashboard")  return <EmployerDashboard profile={profile} />;
