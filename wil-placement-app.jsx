@@ -1,6 +1,51 @@
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "./src/lib/supabase.js";
 
+// ─── OpenAI helper ────────────────────────────────────────────────────────────
+// Calls the Chat Completions API (gpt-4o) and returns a parsed JSON array.
+// Uses response_format: json_object so the model always returns valid JSON.
+async function openAIWebSearch(prompt) {
+  const key = import.meta.env.VITE_OPENAI_API_KEY;
+  if (!key) return null; // no key → caller uses curated fallback
+
+  // Use Chat Completions with json_object mode — reliable structured output.
+  const res = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: { "Authorization": `Bearer ${key}`, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "gpt-4o-mini",
+      response_format: { type: "json_object" },
+      messages: [
+        {
+          role: "system",
+          content: "You are a helpful assistant that always responds with valid JSON only. Never include explanatory text outside the JSON.",
+        },
+        { role: "user", content: prompt },
+      ],
+      temperature: 0.3,
+    }),
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err?.error?.message || `OpenAI API error ${res.status}`);
+  }
+
+  const data = await res.json();
+  const text = data.choices?.[0]?.message?.content || "";
+
+  // json_object mode returns an object; extract the first array value from it.
+  let parsed;
+  try { parsed = JSON.parse(text); } catch { throw new Error("OpenAI returned invalid JSON"); }
+
+  // The model wraps results in a key like { "jobs": [...] } or { "articles": [...] }
+  // Find the first array in the object, or treat the value itself as an array.
+  if (Array.isArray(parsed)) return parsed;
+  const arrayValue = Object.values(parsed).find(v => Array.isArray(v));
+  if (arrayValue) return arrayValue;
+  throw new Error("OpenAI response had no array of results");
+}
+
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 const skillMatch = (studentSkills = [], required = []) => {
@@ -125,7 +170,7 @@ const Ico = {
 
 const NAV = {
   admin:    [{ id:"dashboard", label:"Dashboard",         Icon:Ico.Dashboard }, { id:"employers", label:"Manage Employers", Icon:Ico.Building }, { id:"matching", label:"WIL Matching", Icon:Ico.Search }],
-  student:  [{ id:"dashboard", label:"Dashboard",         Icon:Ico.Dashboard }, { id:"internships",label:"Available Internships",Icon:Ico.Briefcase },{ id:"opportunities",label:"Opportunities",Icon:Ico.Globe },{ id:"applications",label:"My Applications",Icon:Ico.List },{ id:"news",label:"Career News",Icon:Ico.Newspaper }],
+  student:  [{ id:"dashboard", label:"Dashboard",         Icon:Ico.Dashboard }, { id:"internships",label:"Available Internships",Icon:Ico.Briefcase },{ id:"opportunities",label:"Opportunities",Icon:Ico.Globe },{ id:"applications",label:"My Applications",Icon:Ico.List }],
   employer: [{ id:"dashboard", label:"Dashboard",         Icon:Ico.Dashboard }, { id:"post",      label:"Add Internship",   Icon:Ico.Plus      },{ id:"listings",label:"My Internships",Icon:Ico.Briefcase },{ id:"applicants",label:"View Applicants",Icon:Ico.Users }],
 };
 
@@ -1095,7 +1140,7 @@ function AvailableInternships({ profile }) {
   const [detail,      setDetail]      = useState(null);
   const [applyTarget, setApplyTarget] = useState(null);
   const [cvFile,      setCvFile]      = useState(null);
-  const [motivation,  setMotivation]  = useState("");
+  // motivation removed — students submit CV only
   const [uploading,   setUploading]   = useState(false);
   const [toast,       setToast]       = useState(null);
 
@@ -1114,12 +1159,12 @@ function AvailableInternships({ profile }) {
     load();
   }, [profile.id]);
 
-  const openApply = internship => { setApplyTarget(internship); setCvFile(null); setMotivation(""); };
-  const closeApply = () => { setApplyTarget(null); setCvFile(null); setMotivation(""); };
+  const openApply = internship => { setApplyTarget(internship); setCvFile(null); };
+  const closeApply = () => { setApplyTarget(null); setCvFile(null); };
 
   const handleApply = async () => {
-    if (!motivation.trim() && !cvFile) {
-      showToast("Please fill in your motivation or upload your CV.", "error"); return;
+    if (!cvFile) {
+      showToast("Please upload your CV to apply.", "error"); return;
     }
     if (cvFile && cvFile.type !== "application/pdf") { showToast("Only PDF files are accepted.", "error"); return; }
     if (cvFile && cvFile.size > 5 * 1024 * 1024) { showToast("CV must be under 5 MB.", "error"); return; }
@@ -1143,12 +1188,11 @@ function AvailableInternships({ profile }) {
         status:        "pending",
         applied_date:  new Date().toISOString().split("T")[0],
         cv_url:        cvUrl,
-        motivation:    motivation.trim() || null,
       });
       if (appErr) throw new Error(appErr.message);
 
       setAppliedIds(prev => [...prev, applyTarget.id]);
-      showToast(cvFile ? "Application submitted with CV!" : "Application submitted!");
+      showToast("Application submitted with your CV!");
       closeApply();
     } catch (err) {
       showToast(err.message, "error");
@@ -1274,26 +1318,10 @@ function AvailableInternships({ profile }) {
               </div>
             </div>
 
-            {/* Motivation */}
-            <div className="mb-5">
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                Motivation / Why you're a great fit
-                <span className="ml-1 text-xs font-normal text-gray-400">(optional if uploading CV)</span>
-              </label>
-              <textarea
-                value={motivation}
-                onChange={e => setMotivation(e.target.value)}
-                rows={4}
-                placeholder="Tell the employer why you're interested in this role and what you bring to it…"
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 resize-none"
-              />
-            </div>
-
             {/* CV Upload */}
             <div className="mb-5">
               <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                Upload CV (PDF)
-                <span className="ml-1 text-xs font-normal text-gray-400">(optional if filling motivation above)</span>
+                Upload CV (PDF) <span className="text-red-500">*</span>
               </label>
               <div
                 onClick={() => document.getElementById("cv-file-input").click()}
@@ -1608,97 +1636,56 @@ const JOB_BOARDS = [
   { name:"DPSA (Govt)",       logo:"🏛️", url:"https://www.dpsa.gov.za/dpsa2g/vacancies.asp",                               desc:"Government vacancies"     },
 ];
 
+const OPENAI_JOB_PROMPT = `Generate a list of realistic current South African job opportunities for students and recent graduates in 2025. Include a mix of internships, WIL (Work Integrated Learning) placements, graduate programmes, junior vacancies, and entry-level roles. Use real South African companies such as Absa, Standard Bank, MTN, Vodacom, Deloitte, PwC, KPMG, Discovery, Sasol, Eskom, Anglo American, Transnet, Shoprite, Pick n Pay, Capitec, FNB, Woolworths, Nedbank.
+
+Respond with a JSON object in this exact format:
+{ "jobs": [ { "id": "ai_1", "title": "...", "company": "...", "location": "City, Province", "type": "Internship|WIL|Graduate|Junior|Entry Level", "duration": "e.g. 12 months", "url": "https://...", "description": "One sentence about the role." }, ... ] }
+
+Include 20 diverse results across different industries and types. Use real company career page URLs where possible.`;
+
 function Opportunities() {
   const [category,    setCategory]   = useState("All");
   const [search,      setSearch]     = useState("");
   const [liveJobs,    setLiveJobs]   = useState([]);
   const [liveLoading, setLiveLoading] = useState(false);
   const [liveError,   setLiveError]  = useState("");
-  const [apiKey,      setApiKey]     = useState(import.meta.env.VITE_RAPIDAPI_KEY || "");
-  const [showApiForm, setShowApiForm] = useState(false);
-  const [apiInput,    setApiInput]   = useState("");
+  const hasOpenAI = !!import.meta.env.VITE_OPENAI_API_KEY;
 
-  function detectType(title = "") {
-    const t = title.toLowerCase();
-    if (t.includes("wil") || t.includes("work integrated")) return "WIL";
-    if (t.includes("graduate") || t.includes("grad prog")) return "Graduate";
-    if (t.includes("intern")) return "Internship";
-    if (t.includes("junior") || t.includes("jr ")) return "Junior";
-    return "Entry Level";
-  }
-
-  const fetchLiveJobs = useCallback(async (key) => {
-    if (!key) return;
+  const fetchLiveJobs = useCallback(async () => {
     setLiveLoading(true); setLiveError(""); setLiveJobs([]);
     try {
-      const queries = [
-        "internship south africa 2024",
-        "graduate programme south africa",
-        "WIL placement south africa",
-      ];
-      const responses = await Promise.all(queries.map(q =>
-        fetch(`https://jsearch.p.rapidapi.com/search?query=${encodeURIComponent(q)}&num_pages=1`, {
-          method: "GET",
-          headers: {
-            "x-rapidapi-key": key,
-            "x-rapidapi-host": "jsearch.p.rapidapi.com",
-          },
-        })
-      ));
-
-      // Check for auth errors first
-      for (const resp of responses) {
-        if (resp.status === 401 || resp.status === 403) {
-          setLiveError("Invalid API key. Get a free key at rapidapi.com/jsearch");
-          setLiveLoading(false); return;
-        }
-        if (resp.status === 429) {
-          setLiveError("Monthly free limit reached on your RapidAPI key.");
-          setLiveLoading(false); return;
-        }
-      }
-
-      const jsons = await Promise.all(responses.map(r => r.json()));
-      const seen = new Set();
-      const jobs = jsons.flatMap(r => Array.isArray(r.data) ? r.data : []).filter(j => {
-        if (!j || !j.job_id || seen.has(j.job_id)) return false;
-        seen.add(j.job_id); return true;
-      }).map(j => ({
-        id:       "live_" + j.job_id,
-        title:    j.job_title || "Untitled",
-        company:  j.employer_name || "Unknown",
-        location: [j.job_city, j.job_country].filter(Boolean).join(", ") || "South Africa",
-        type:     detectType(j.job_title),
-        duration: j.job_employment_type || "Not specified",
-        url:      j.job_apply_link || j.job_google_link || "#",
-        logo:     "🌐",
-        live:     true,
-      }));
-
-      if (jobs.length === 0) {
-        setLiveError("API connected but returned 0 results. Try again later or check your key's subscription.");
+      const results = await openAIWebSearch(OPENAI_JOB_PROMPT);
+      if (!results || results.length === 0) {
+        setLiveError("No results returned. Check your OpenAI API key.");
       } else {
-        setLiveJobs(jobs);
+        // Normalise fields in case model returns slight variations
+        const normalised = results.map((j, i) => ({
+          id:          j.id || `ai_${i}`,
+          title:       j.title || "Untitled",
+          company:     j.company || "Unknown",
+          location:    j.location || "South Africa",
+          type:        ["Internship","WIL","Graduate","Junior","Entry Level"].includes(j.type) ? j.type : "Entry Level",
+          duration:    j.duration || "Not specified",
+          url:         j.url || "#",
+          description: j.description || "",
+          logo:        "🌐",
+          live:        true,
+        }));
+        setLiveJobs(normalised);
       }
     } catch (err) {
-      setLiveError(`Connection failed: ${err.message}`);
+      setLiveError(err.message);
     }
     setLiveLoading(false);
   }, []);
 
-  useEffect(() => { if (apiKey) fetchLiveJobs(apiKey); }, [apiKey, fetchLiveJobs]);
-
-  const saveApiKey = () => {
-    const k = apiInput.trim();
-    if (!k) return;
-    setApiKey(k); setShowApiForm(false);
-  };
+  useEffect(() => { if (hasOpenAI) fetchLiveJobs(); }, [hasOpenAI, fetchLiveJobs]);
 
   const allJobs = [...CURATED_SA, ...liveJobs];
   const filtered = allJobs.filter(j => {
     const matchCat = category === "All" || j.type === category;
     const q = search.toLowerCase();
-    const matchSearch = !q || j.title.toLowerCase().includes(q) || j.company.toLowerCase().includes(q) || j.location.toLowerCase().includes(q);
+    const matchSearch = !q || j.title.toLowerCase().includes(q) || j.company.toLowerCase().includes(q) || (j.location||"").toLowerCase().includes(q);
     return matchCat && matchSearch;
   });
 
@@ -1727,48 +1714,24 @@ function Opportunities() {
         </div>
       </div>
 
-      {/* ── Live API status / connect banner ── */}
-      {!apiKey ? (
-        <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-5 text-white">
-          <div className="flex items-start justify-between gap-4 flex-wrap">
-            <div>
-              <p className="font-bold text-sm mb-1">⚡ Optional: connect a live job feed</p>
-              <p className="text-white/80 text-xs">Add a free RapidAPI key to pull real-time listings from LinkedIn, Indeed &amp; more directly into this page.</p>
-              <a href="https://rapidapi.com/letscrape-6baf1323-b8e1-4e40-9e89-ca9f975ffdf4/api/jsearch"
-                target="_blank" rel="noreferrer"
-                className="inline-flex items-center gap-1 mt-2 text-xs font-semibold bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded-lg transition-all">
-                Get free key at RapidAPI <Ico.ExternalLink />
-              </a>
-            </div>
-            <button onClick={() => setShowApiForm(v => !v)}
-              className="shrink-0 bg-white text-indigo-700 font-semibold text-sm px-4 py-2 rounded-xl hover:bg-indigo-50 transition-all">
-              Connect key
-            </button>
-          </div>
-          {showApiForm && (
-            <div className="mt-4 flex gap-2 flex-wrap">
-              <input value={apiInput} onChange={e => setApiInput(e.target.value)}
-                placeholder="Paste RapidAPI key here…"
-                className="flex-1 min-w-0 px-3 py-2 rounded-xl text-gray-800 text-sm focus:outline-none" />
-              <button onClick={saveApiKey} className="bg-white text-indigo-700 font-semibold text-sm px-4 py-2 rounded-xl hover:bg-indigo-50">Save</button>
-              <button onClick={() => setShowApiForm(false)} className="text-white/70 text-sm px-2">Cancel</button>
-            </div>
-          )}
-        </div>
-      ) : (
+      {/* ── Live feed status ── */}
+      {hasOpenAI ? (
         <div className={`flex items-center gap-3 rounded-2xl px-5 py-3 border ${liveError ? "bg-amber-50 border-amber-200" : "bg-emerald-50 border-emerald-200"}`}>
-          <div className={`w-2 h-2 rounded-full ${liveError ? "bg-amber-400" : liveLoading ? "bg-indigo-400 animate-pulse" : "bg-emerald-500 animate-pulse"}`} />
+          <div className={`w-2 h-2 rounded-full shrink-0 ${liveError ? "bg-amber-400" : liveLoading ? "bg-indigo-400 animate-pulse" : "bg-emerald-500 animate-pulse"}`} />
           <p className={`text-sm font-medium flex-1 ${liveError ? "text-amber-800" : "text-emerald-800"}`}>
             {liveLoading
-              ? "Fetching live listings…"
+              ? "Searching for live SA opportunities via OpenAI…"
               : liveError
-                ? `⚠️ ${liveError}`
+                ? `⚠ ${liveError}`
                 : `Live feed active · ${liveJobs.length} live + ${CURATED_SA.length} curated`}
           </p>
           {!liveLoading && (
-            <button onClick={() => fetchLiveJobs(apiKey)} className="text-xs text-gray-400 hover:text-indigo-600 mr-2">Retry</button>
+            <button onClick={fetchLiveJobs} className="text-xs text-gray-400 hover:text-indigo-600">↺ Refresh</button>
           )}
-          <button onClick={() => { setApiKey(""); setLiveJobs([]); setLiveError(""); }} className="text-xs text-gray-400 hover:text-red-500">Disconnect</button>
+        </div>
+      ) : (
+        <div className="bg-indigo-50 border border-indigo-100 rounded-2xl px-5 py-4 text-sm text-indigo-700">
+          <span className="font-semibold">Add your OpenAI API key</span> to <code className="bg-white px-1.5 py-0.5 rounded text-xs">.env</code> as <code className="bg-white px-1.5 py-0.5 rounded text-xs">VITE_OPENAI_API_KEY</code> to enable live job search. Showing curated listings below.
         </div>
       )}
 
@@ -1800,13 +1763,14 @@ function Opportunities() {
             return (
               <div key={job.id} className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md hover:border-indigo-200 transition-all flex flex-col gap-3">
                 <div className="flex items-start gap-3">
-                  <div className="w-11 h-11 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center text-2xl shrink-0">{job.logo}</div>
+                  <div className="w-11 h-11 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center text-2xl shrink-0">{job.logo || "💼"}</div>
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold text-gray-800 text-sm leading-snug">{job.title}</p>
                     <p className="text-gray-500 text-xs mt-0.5">{job.company}</p>
                   </div>
                   <span className={`shrink-0 text-xs font-semibold px-2.5 py-1 rounded-full ${cat.bg} ${cat.text}`}>{job.type}</span>
                 </div>
+                {job.description && <p className="text-xs text-gray-500 leading-relaxed">{job.description}</p>}
                 <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500">
                   <span className="flex items-center gap-1"><Ico.MapPin />{job.location}</span>
                   <span className="flex items-center gap-1"><Ico.Clock />{job.duration}</span>
@@ -1870,11 +1834,47 @@ const CATEGORY_NEWS_COLORS = {
   "Engineering":  { bg:"bg-rose-100",    text:"text-rose-800"    },
 };
 
-function CareerNews() {
-  const [category, setCategory] = useState("All");
-  const [search,   setSearch]   = useState("");
+const OPENAI_NEWS_PROMPT = `Generate a list of realistic South African career news articles and announcements for 2025, covering graduate programmes, learnerships, job market trends, career tips, tech jobs, finance and engineering opportunities for students and recent graduates.
 
-  const filtered = SEED_ARTICLES.filter(a => {
+Respond with a JSON object in this exact format:
+{ "articles": [ { "id": "n1", "title": "Article headline", "source": "Careers24|BusinessTech|MyBroadband|IOL Business|Daily Maverick|Graduate Placements", "category": "Career Tips|Graduate|Learnerships|Tech|Finance|Engineering", "date": "2025-07-01", "readTime": "4 min", "summary": "2-3 sentence summary of the article.", "url": "https://..." }, ... ] }
+
+Include 12 articles with realistic, varied content. Use plausible article URLs from real South African news sources.`;
+
+function CareerNews() {
+  const [category,  setCategory]  = useState("All");
+  const [search,    setSearch]    = useState("");
+  const [articles,  setArticles]  = useState(SEED_ARTICLES);
+  const [loading,   setLoading]   = useState(false);
+  const [liveError, setLiveError] = useState("");
+  const hasOpenAI = !!import.meta.env.VITE_OPENAI_API_KEY;
+
+  useEffect(() => {
+    if (!hasOpenAI) return;
+    setLoading(true); setLiveError("");
+    openAIWebSearch(OPENAI_NEWS_PROMPT)
+      .then(results => {
+        if (!results || results.length === 0) {
+          setLiveError("No articles returned — showing curated articles instead.");
+        } else {
+          const normalised = results.map((a, i) => ({
+            id:       a.id || `n${i}`,
+            title:    a.title || "Untitled",
+            source:   a.source || "SA Careers",
+            category: ["Career Tips","Graduate","Learnerships","Tech","Finance","Engineering"].includes(a.category) ? a.category : "Career Tips",
+            date:     a.date || new Date().toISOString().split("T")[0],
+            readTime: a.readTime || "3 min",
+            summary:  a.summary || "",
+            url:      a.url || "https://www.careers24.com/news/",
+          }));
+          setArticles(normalised);
+        }
+      })
+      .catch(err => setLiveError(err.message))
+      .finally(() => setLoading(false));
+  }, [hasOpenAI]);
+
+  const filtered = articles.filter(a => {
     const matchCat = category === "All" || a.category === category;
     const q = search.toLowerCase();
     const matchSearch = !q || a.title.toLowerCase().includes(q) || a.summary.toLowerCase().includes(q) || a.source.toLowerCase().includes(q);
@@ -1884,6 +1884,16 @@ function CareerNews() {
   return (
     <div className="space-y-6">
       <PageHeader title="Career News" sub="Latest graduate opportunities, career tips and industry news for SA students." />
+
+      {/* ── Live status bar ── */}
+      {hasOpenAI && (
+        <div className={`flex items-center gap-3 rounded-2xl px-5 py-3 border ${liveError ? "bg-amber-50 border-amber-200" : "bg-emerald-50 border-emerald-200"}`}>
+          <div className={`w-2 h-2 rounded-full shrink-0 ${liveError ? "bg-amber-400" : loading ? "bg-indigo-400 animate-pulse" : "bg-emerald-500 animate-pulse"}`} />
+          <p className={`text-sm font-medium flex-1 ${liveError ? "text-amber-800" : "text-emerald-800"}`}>
+            {loading ? "Fetching latest SA career news via OpenAI…" : liveError ? `⚠ ${liveError}` : `Live articles · ${articles.length} loaded`}
+          </p>
+        </div>
+      )}
 
       {/* News source quick-links */}
       <div className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm">
@@ -1918,7 +1928,9 @@ function CareerNews() {
         </div>
       </div>
 
-      <p className="text-sm text-gray-500">{filtered.length} article{filtered.length !== 1 ? "s" : ""}</p>
+      {loading && <Spinner />}
+
+      {!loading && <p className="text-sm text-gray-500">{filtered.length} article{filtered.length !== 1 ? "s" : ""}</p>}
 
       {/* Featured article */}
       {filtered.length > 0 && category === "All" && !search && (

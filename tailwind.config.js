@@ -2,8 +2,8 @@
 export default {
   content: [
     "./index.html",
-    "./*.jsx",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    "./*.jsx",                        // legacy monolith root file (kept for reference)
+    "./src/**/*.{js,ts,jsx,tsx}",     // all restructured source files
   ],
   theme: {
     extend: {},
