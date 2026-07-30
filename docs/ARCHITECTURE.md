@@ -118,8 +118,8 @@ Student registers / logs in
   → StudentDashboard (stats)
   → AvailableInternships (browse + apply with CV)
   → MyApplications (track + see matched opportunities)
-  → Opportunities (OpenAI live SA jobs)
-  → CareerNews (OpenAI live articles)
+  
+ 
 
 Employer logs in (registered by Admin)
   → EmployerDashboard (stats)
