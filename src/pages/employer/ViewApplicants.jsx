@@ -137,8 +137,8 @@ export function ViewApplicants({ profile }) {
                 {/* CV download */}
                 {a.cv_url ? (
                   <a href={a.cv_url} target="_blank" rel="noreferrer"
-                    className="mb-3 flex items-center gap-2 px-4 py-2.5 border border-emerald-200 bg-emerald-50 rounded-xl text-sm font-semibold text-emerald-700 hover:bg-emerald-100 transition-all w-full">
-                    <span className="text-lg">📄</span> Download CV <Ico.ExternalLink className="ml-auto" />
+                    className="mb-3 inline-flex items-center gap-1.5 px-3 py-1.5 border border-emerald-200 bg-emerald-50 rounded-lg text-xs font-semibold text-emerald-700 hover:bg-emerald-100 transition-all">
+                    <span>📄</span> Download CV <Ico.ExternalLink className="w-3 h-3" />
                   </a>
                 ) : (
                   <div className="mb-3 flex items-center gap-2 px-4 py-2.5 border border-gray-100 bg-gray-50 rounded-xl text-sm text-gray-400 w-full">

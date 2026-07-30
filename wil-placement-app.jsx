@@ -13,7 +13,7 @@ async function openAIWebSearch(prompt) {
     method: "POST",
     headers: { "Authorization": `Bearer ${key}`, "Content-Type": "application/json" },
     body: JSON.stringify({
-      model: "gpt-4o-mini",
+      model: "gpt-4.1",
       response_format: { type: "json_object" },
       messages: [
         {
@@ -170,7 +170,7 @@ const Ico = {
 
 const NAV = {
   admin:    [{ id:"dashboard", label:"Dashboard",         Icon:Ico.Dashboard }, { id:"employers", label:"Manage Employers", Icon:Ico.Building }, { id:"matching", label:"WIL Matching", Icon:Ico.Search }],
-  student:  [{ id:"dashboard", label:"Dashboard",         Icon:Ico.Dashboard }, { id:"internships",label:"Available Internships",Icon:Ico.Briefcase },{ id:"opportunities",label:"Opportunities",Icon:Ico.Globe },{ id:"applications",label:"My Applications",Icon:Ico.List }],
+  student:  [{ id:"dashboard", label:"Dashboard",         Icon:Ico.Dashboard }, { id:"internships",label:"Available Internships",Icon:Ico.Briefcase },{ id:"applications",label:"My Applications",Icon:Ico.List }],
   employer: [{ id:"dashboard", label:"Dashboard",         Icon:Ico.Dashboard }, { id:"post",      label:"Add Internship",   Icon:Ico.Plus      },{ id:"listings",label:"My Internships",Icon:Ico.Briefcase },{ id:"applicants",label:"View Applicants",Icon:Ico.Users }],
 };
 

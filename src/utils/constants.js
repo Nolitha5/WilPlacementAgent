@@ -26,7 +26,6 @@ export const NAV_KEYS = {
   student:  [
     { id: "dashboard",    label: "Dashboard"             },
     { id: "internships",  label: "Available Internships" },
-    { id: "opportunities",label: "Opportunities"         },
     { id: "applications", label: "My Applications"       },
   ],
   employer: [

@@ -29,7 +29,7 @@ import { WILMatching }         from "./pages/admin/WILMatching";
 import { StudentDashboard }    from "./pages/student/StudentDashboard";
 import { AvailableInternships }from "./pages/student/AvailableInternships";
 import { MyApplications }      from "./pages/student/MyApplications";
-import { Opportunities }       from "./pages/student/Opportunities";
+// Opportunities removed — students apply via Available Internships tab
 // CareerNews removed — re-add when ready
 
 // Employer pages
@@ -113,7 +113,7 @@ export default function App() {
       if (activePage === "dashboard")    return <StudentDashboard profile={profile} />;
       if (activePage === "internships")  return <AvailableInternships profile={profile} />;
       if (activePage === "applications") return <MyApplications profile={profile} onNavigate={setActivePage} />;
-      if (activePage === "opportunities")return <Opportunities />;
+
 
     }
     // Employer

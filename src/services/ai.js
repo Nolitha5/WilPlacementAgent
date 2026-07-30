@@ -54,7 +54,7 @@ export async function openAIWebSearch(prompt) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: "gpt-4o-mini",
+      model: "gpt-4.1",
       response_format: { type: "json_object" },
       messages: [
         {
